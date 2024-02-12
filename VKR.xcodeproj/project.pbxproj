@@ -11,6 +11,7 @@
 		44A3C4462B4AE88D008C735F /* StringClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A3C4432B4AE88D008C735F /* StringClass.swift */; };
 		44A3C4472B4AE88D008C735F /* ArraysDiffFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A3C4442B4AE88D008C735F /* ArraysDiffFinder.swift */; };
 		44A3C44D2B4AEBDE008C735F /* LineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A3C44C2B4AEBDE008C735F /* LineModel.swift */; };
+		44A3C4502B4C7B8E008C735F /* DirectoryChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A3C44F2B4C7B8E008C735F /* DirectoryChoiceView.swift */; };
 		44F6CD072B49C89D00A39C89 /* VKRApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6CD062B49C89D00A39C89 /* VKRApp.swift */; };
 		44F6CD092B49C89D00A39C89 /* ChangesSuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6CD082B49C89D00A39C89 /* ChangesSuggestionView.swift */; };
 		44F6CD0B2B49C89E00A39C89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44F6CD0A2B49C89E00A39C89 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 		44A3C4432B4AE88D008C735F /* StringClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringClass.swift; sourceTree = "<group>"; };
 		44A3C4442B4AE88D008C735F /* ArraysDiffFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArraysDiffFinder.swift; sourceTree = "<group>"; };
 		44A3C44C2B4AEBDE008C735F /* LineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineModel.swift; sourceTree = "<group>"; };
+		44A3C44F2B4C7B8E008C735F /* DirectoryChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryChoiceView.swift; sourceTree = "<group>"; };
 		44F6CD032B49C89D00A39C89 /* VKR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44F6CD062B49C89D00A39C89 /* VKRApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKRApp.swift; sourceTree = "<group>"; };
 		44F6CD082B49C89D00A39C89 /* ChangesSuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesSuggestionView.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		44A3C4482B4AE9B1008C735F /* UserStories */ = {
 			isa = PBXGroup;
 			children = (
+				44A3C44E2B4C7B52008C735F /* DirectoryChoice */,
 				44A3C4412B4AE864008C735F /* ChangesSuggestion */,
 			);
 			path = UserStories;
@@ -98,6 +101,14 @@
 				44A3C44C2B4AEBDE008C735F /* LineModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		44A3C44E2B4C7B52008C735F /* DirectoryChoice */ = {
+			isa = PBXGroup;
+			children = (
+				44A3C44F2B4C7B8E008C735F /* DirectoryChoiceView.swift */,
+			);
+			path = DirectoryChoice;
 			sourceTree = "<group>";
 		};
 		44F6CCFA2B49C89D00A39C89 = {
@@ -269,6 +280,7 @@
 				44F6CD072B49C89D00A39C89 /* VKRApp.swift in Sources */,
 				44A3C4452B4AE88D008C735F /* Constants.swift in Sources */,
 				44A3C4462B4AE88D008C735F /* StringClass.swift in Sources */,
+				44A3C4502B4C7B8E008C735F /* DirectoryChoiceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
