@@ -16,28 +16,11 @@ private extension Color {
     static let emptyLine = Color(.displayP3, red: 0.137, green: 0.149, blue: 0.169)
 }
 
-private extension CGFloat {
-    static let lineLeadingMargin: CGFloat = 6
-}
-
-struct FileChangesModel {
-    let fileName: String
-    let leftLines: [LineModel]
-    let rightLines: [LineModel]
-}
-
 struct ChangesSuggestionView: View {
 
     // Properties
-    private let changesDescription: AttributedString
-    private let fileChangesModels: [FileChangesModel]
-
-    // MARK: - Init
-
-    init(changesDescription: AttributedString, fileChangesModels: [FileChangesModel]) {
-        self.changesDescription = changesDescription
-        self.fileChangesModels = fileChangesModels
-    }
+    let changesDescription: AttributedString
+    let fileChangesModels: [FileChangesModel]
 
     // MARK: - View
 
@@ -51,13 +34,13 @@ struct ChangesSuggestionView: View {
             HStack {
                 Spacer()
                 Button(action: { print(">>> did tap red button") }) {
-                    Label("Discard", systemImage: "xmark.circle")
+                    Label("Отклонить", systemImage: "xmark.circle")
                 }
                 .background(Color.red.opacity(0.6))
                 .cornerRadius(5)
                 Spacer()
                 Button(action: { print(">>> did tap green button") }) {
-                    Label("Accept", systemImage: "checkmark.circle")
+                    Label("Принять", systemImage: "checkmark.circle")
                 }
                 .background(Color.green.opacity(0.6))
                 .cornerRadius(5)
@@ -102,7 +85,7 @@ struct ChangesSuggestionView: View {
         let color = lineColor(for: line.status)
         return Group {
             Rectangle()
-                .frame(width: .lineLeadingMargin)
+                .frame(width: 6)
                 .foregroundColor(color)
             Text(line.text)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

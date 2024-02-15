@@ -16,7 +16,7 @@ struct VKRApp: App {
         WindowGroup(Constants.appName) {
 //            ChangesSuggestionView(changesDescription: presenter.changesDescription,
 //                                  fileChangesModels: presenter.fileChangesModels)
-            DirectoryChoiceView()
+            ProjectChoiceView()
         }
     }
 }
