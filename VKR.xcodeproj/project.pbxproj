@@ -19,6 +19,9 @@
 		44F6CD0E2B49C89E00A39C89 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44F6CD0D2B49C89E00A39C89 /* Preview Assets.xcassets */; };
 		44F6CD162B49CBAF00A39C89 /* ChangesSuggestionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6CD152B49CBAF00A39C89 /* ChangesSuggestionPresenter.swift */; };
 		4D852726F09B7BCA65DBDD0F /* Pods_VKR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1061F92529AE8D7DB94B7D16 /* Pods_VKR.framework */; };
+		97E5BF382B7E8C20003876AE /* XcodeProj in Frameworks */ = {isa = PBXBuildFile; productRef = 97E5BF372B7E8C20003876AE /* XcodeProj */; };
+		97E5BF3A2B7E8CB6003876AE /* ProjectChoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5BF392B7E8CB6003876AE /* ProjectChoiceViewModel.swift */; };
+		97E5EF612B803C05003876AE /* NSRegularExpression+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5EF602B803C05003876AE /* NSRegularExpression+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,8 @@
 		44F6CD152B49CBAF00A39C89 /* ChangesSuggestionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesSuggestionPresenter.swift; sourceTree = "<group>"; };
 		6C585506CF60E08DE222347C /* Pods-VKR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKR.release.xcconfig"; path = "Target Support Files/Pods-VKR/Pods-VKR.release.xcconfig"; sourceTree = "<group>"; };
 		71883322672D7B4AF80D4C28 /* Pods-VKR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VKR.debug.xcconfig"; path = "Target Support Files/Pods-VKR/Pods-VKR.debug.xcconfig"; sourceTree = "<group>"; };
+		97E5BF392B7E8CB6003876AE /* ProjectChoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectChoiceViewModel.swift; sourceTree = "<group>"; };
+		97E5EF602B803C05003876AE /* NSRegularExpression+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRegularExpression+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +51,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D852726F09B7BCA65DBDD0F /* Pods_VKR.framework in Frameworks */,
+				97E5BF382B7E8C20003876AE /* XcodeProj in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,7 +78,7 @@
 		44A3C4482B4AE9B1008C735F /* UserStories */ = {
 			isa = PBXGroup;
 			children = (
-				44A3C44E2B4C7B52008C735F /* DirectoryChoice */,
+				44A3C44E2B4C7B52008C735F /* ProjectChoice */,
 				44A3C4412B4AE864008C735F /* ChangesSuggestion */,
 			);
 			path = UserStories;
@@ -81,6 +87,7 @@
 		44A3C4492B4AE9CD008C735F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				97E5EF5F2B803BF4003876AE /* Extensions */,
 				44A3C4422B4AE88D008C735F /* Constants.swift */,
 				44A3C44B2B4AE9E6008C735F /* Models */,
 				44A3C44A2B4AE9DC008C735F /* Helpers */,
@@ -106,12 +113,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		44A3C44E2B4C7B52008C735F /* DirectoryChoice */ = {
+		44A3C44E2B4C7B52008C735F /* ProjectChoice */ = {
 			isa = PBXGroup;
 			children = (
 				44A3C44F2B4C7B8E008C735F /* ProjectChoiceView.swift */,
+				97E5BF392B7E8CB6003876AE /* ProjectChoiceViewModel.swift */,
 			);
-			path = DirectoryChoice;
+			path = ProjectChoice;
 			sourceTree = "<group>";
 		};
 		44F6CCFA2B49C89D00A39C89 = {
@@ -162,6 +170,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		97E5EF5F2B803BF4003876AE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				97E5EF602B803C05003876AE /* NSRegularExpression+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -180,6 +196,9 @@
 			dependencies = (
 			);
 			name = VKR;
+			packageProductDependencies = (
+				97E5BF372B7E8C20003876AE /* XcodeProj */,
+			);
 			productName = VKR;
 			productReference = 44F6CD032B49C89D00A39C89 /* VKR.app */;
 			productType = "com.apple.product-type.application";
@@ -208,6 +227,9 @@
 				Base,
 			);
 			mainGroup = 44F6CCFA2B49C89D00A39C89;
+			packageReferences = (
+				97E5BF362B7E8C20003876AE /* XCRemoteSwiftPackageReference "XcodeProj" */,
+			);
 			productRefGroup = 44F6CD042B49C89D00A39C89 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -278,9 +300,11 @@
 			files = (
 				44A3C44D2B4AEBDE008C735F /* LineModel.swift in Sources */,
 				44A3C4472B4AE88D008C735F /* ArraysDiffFinder.swift in Sources */,
+				97E5EF612B803C05003876AE /* NSRegularExpression+Extensions.swift in Sources */,
 				44F6CD092B49C89D00A39C89 /* ChangesSuggestionView.swift in Sources */,
 				44F6CD162B49CBAF00A39C89 /* ChangesSuggestionPresenter.swift in Sources */,
 				44F6CD072B49C89D00A39C89 /* VKRApp.swift in Sources */,
+				97E5BF3A2B7E8CB6003876AE /* ProjectChoiceViewModel.swift in Sources */,
 				44ACDCCC2B7D485E00DCC7F5 /* FileChangesModel.swift in Sources */,
 				44A3C4452B4AE88D008C735F /* Constants.swift in Sources */,
 				44A3C4462B4AE88D008C735F /* StringClass.swift in Sources */,
@@ -486,6 +510,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		97E5BF362B7E8C20003876AE /* XCRemoteSwiftPackageReference "XcodeProj" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tuist/XcodeProj";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		97E5BF372B7E8C20003876AE /* XcodeProj */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 97E5BF362B7E8C20003876AE /* XCRemoteSwiftPackageReference "XcodeProj" */;
+			productName = XcodeProj;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 44F6CCFB2B49C89D00A39C89 /* Project object */;
 }
