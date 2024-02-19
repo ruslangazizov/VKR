@@ -115,8 +115,8 @@
 		44A3C4492B4AE9CD008C735F /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				97E5EF5F2B803BF4003876AE /* Extensions */,
 				44A3C4422B4AE88D008C735F /* Constants.swift */,
+				97E5EF5F2B803BF4003876AE /* Extensions */,
 				44A3C44B2B4AE9E6008C735F /* Models */,
 				44A3C44A2B4AE9DC008C735F /* Helpers */,
 			);
@@ -172,11 +172,9 @@
 		44F6CD052B49C89D00A39C89 /* VKR */ = {
 			isa = PBXGroup;
 			children = (
-				44F6CD062B49C89D00A39C89 /* VKRApp.swift */,
-				44A3C4492B4AE9CD008C735F /* Core */,
-				44A3C4482B4AE9B1008C735F /* UserStories */,
-				44F6CD0A2B49C89E00A39C89 /* Assets.xcassets */,
+				97E516EC2B838490003876AE /* Sources */,
 				44F6CD0F2B49C89E00A39C89 /* VKR.entitlements */,
+				44F6CD0A2B49C89E00A39C89 /* Assets.xcassets */,
 				44F6CD0C2B49C89E00A39C89 /* Preview Content */,
 			);
 			path = VKR;
@@ -197,6 +195,16 @@
 				6C585506CF60E08DE222347C /* Pods-VKR.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		97E516EC2B838490003876AE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				44F6CD062B49C89D00A39C89 /* VKRApp.swift */,
+				44A3C4492B4AE9CD008C735F /* Core */,
+				44A3C4482B4AE9B1008C735F /* UserStories */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		97E5EF5F2B803BF4003876AE /* Extensions */ = {
