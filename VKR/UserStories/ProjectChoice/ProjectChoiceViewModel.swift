@@ -15,6 +15,8 @@ final class ProjectChoiceViewModel: ObservableObject {
     @Published var projectPath: String? // = "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example.xcodeproj"
     @Published var includedFilesRegExp: String = ""
     @Published var excludedFilesRegExp: String = ""
+    @Published var isAnalysisInProgress = false
+    @Published var path = NavigationPath()
     
     // MARK: - Internal
     
@@ -31,6 +33,7 @@ final class ProjectChoiceViewModel: ObservableObject {
     
     func startAnalysis() {
         guard let projectPath, let xcodeproj = try? XcodeProj(pathString: projectPath) else { return }
+        isAnalysisInProgress = true
         
 //        guard let desiredGroupName = projectPath.split(separator: "/").last?.split(separator: ".").first,
 //              let group = xcodeproj.pbxproj.groups.first(where: { $0.path == String(desiredGroupName) }) else { return }
@@ -38,7 +41,21 @@ final class ProjectChoiceViewModel: ObservableObject {
                                                              projectPath: projectPath)
         let filteredFilesAbsolutePaths = filterFilesAbsolutePaths(filesAbsolutePaths)
         print(filteredFilesAbsolutePaths.joined(separator: "\n"))
+        
+        let manager = SwiftFilesManager(swiftFilesAbsolutePaths: filesAbsolutePaths)
+        DispatchQueue.global(qos: .userInitiated).async {
+            manager.makeGraph()
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                
+                // Navigate to next screen
+                self.path.append(String(describing: ChangesSuggestionView.self)) // TODO: изменить на добавление модели
+                self.isAnalysisInProgress = false
+            }
+        }
     }
+    
+    // MARK: - Private
     
     private func convertToFilesAbsolutePaths(buildFiles: [PBXBuildFile], projectPath: String) -> [String] {
         let filesRelativePaths = buildFiles.compactMap { buildFile -> String? in
@@ -46,7 +63,7 @@ final class ProjectChoiceViewModel: ObservableObject {
             guard var path = file.path, path.hasSuffix("swift"), !path.contains("Tests") else { return nil }
             
             var parent = file.parent
-            while parent != nil, parent!.path != nil {
+            while parent != nil && parent!.path != nil {
                 path = parent!.path! + "/" + path
                 parent = parent!.parent
             }

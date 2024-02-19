@@ -10,12 +10,8 @@ import SwiftUI
 @main
 struct VKRApp: App {
 
-    private let presenter = ChangesSuggestionPresenter()
-
     var body: some Scene {
         WindowGroup(Constants.appName) {
-//            ChangesSuggestionView(changesDescription: presenter.changesDescription,
-//                                  fileChangesModels: presenter.fileChangesModels)
             ProjectChoiceView()
         }
     }

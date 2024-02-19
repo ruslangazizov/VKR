@@ -5,4 +5,5 @@ target 'VKR' do
   inhibit_all_warnings!
 
   pod 'IGListKit', '~> 4.0.0'
+  pod 'SwiftGraph', '~> 3.1'
 end

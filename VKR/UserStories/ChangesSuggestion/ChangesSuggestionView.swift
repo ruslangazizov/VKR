@@ -18,53 +18,57 @@ private extension Color {
 
 struct ChangesSuggestionView: View {
 
-    // Properties
-    let changesDescription: AttributedString
-    let fileChangesModels: [FileChangesModel]
+    // Dependencies
+    private let viewModel = ChangesSuggestionMockViewModel()
 
     // MARK: - View
 
     var body: some View {
         VStack(spacing: .zero) {
-            Text(changesDescription)
+            Text(viewModel.changesDescription)
                 .font(.title3)
                 .frame(maxWidth: .infinity)
-                .foregroundColor(.white)
-                .background(Color.black)
+                .padding(.all, 8)
+            
             HStack {
                 Spacer()
-                Button(action: { print(">>> did tap red button") }) {
-                    Label("Отклонить", systemImage: "xmark.circle")
-                }
-                .background(Color.red.opacity(0.6))
-                .cornerRadius(5)
+                
+                makeActionButton(action: { print(">>> did tap red button") },
+                                 title: "Отклонить",
+                                 systemImage: "xmark.circle",
+                                 color: .red)
+                
                 Spacer()
-                Button(action: { print(">>> did tap green button") }) {
-                    Label("Принять", systemImage: "checkmark.circle")
-                }
-                .background(Color.green.opacity(0.6))
-                .cornerRadius(5)
+                
+                makeActionButton(action: { print(">>> did tap green button") },
+                                 title: "Принять",
+                                 systemImage: "checkmark.circle",
+                                 color: .green)
+                
                 Spacer()
             }
-            .frame(height: 30)
-            .background(Color.black)
-            ForEach(0..<fileChangesModels.count, id: \.self) { index in
-                let model = fileChangesModels[index]
-                VStack {
+            .frame(height: 35)
+            
+            ForEach(0..<viewModel.fileChangesModels.count, id: \.self) { index in
+                let model = viewModel.fileChangesModels[index]
+                VStack(spacing: 0) {
                     Text(model.fileName)
                         .font(.title2)
                         .padding(6)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
                         .background(Color.fileNameBackground)
+                    
                     ScrollView {
                         VStack(spacing: .zero) {
                             ForEach(0..<linesCount(for: model), id: \.self) { index in
                                 HStack(spacing: .zero) {
                                     makeLine(model.leftLines[index])
+                                    
                                     Rectangle()
                                         .frame(width: 2)
                                         .foregroundColor(.fileVersionsSeparator)
+                                    
                                     makeLine(model.rightLines[index])
                                 }
                             }
@@ -75,10 +79,19 @@ struct ChangesSuggestionView: View {
         }
     }
 
-    // MARK: - Private
-
-    private func linesCount(for fileChangesModel: FileChangesModel) -> Int {
-        max(fileChangesModel.leftLines.count, fileChangesModel.rightLines.count)
+    // MARK: - Custom Views
+    
+    private func makeActionButton(action: @escaping () -> Void,
+                                  title: String,
+                                  systemImage: String,
+                                  color: Color) -> some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .font(.title3)
+                .bold()
+        }
+        .background(color.opacity(0.6))
+        .cornerRadius(5)
     }
 
     private func makeLine(_ line: LineModel) -> some View {
@@ -89,8 +102,15 @@ struct ChangesSuggestionView: View {
                 .foregroundColor(color)
             Text(line.text)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .foregroundColor(.white)
                 .background(color)
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func linesCount(for fileChangesModel: FileChangesModel) -> Int {
+        max(fileChangesModel.leftLines.count, fileChangesModel.rightLines.count)
     }
 
     private func lineColor(for lineStatus: LineModel.Status) -> Color {
@@ -109,12 +129,9 @@ struct ChangesSuggestionView: View {
 
 // MARK: - Preview
 
-//struct ChangesSuggestionView_Previews: PreviewProvider {
-//
-//    static let presenter = ChangesSuggestionPresenter()
-//
-//    static var previews: some View {
-//        ChangesSuggestionView(changesDescription: presenter.changesDescription,
-//                              fileChangesModels: presenter.fileChangesModels)
-//    }
-//}
+struct ChangesSuggestionView_Previews: PreviewProvider {
+
+    static var previews: some View {
+        ChangesSuggestionView()
+    }
+}

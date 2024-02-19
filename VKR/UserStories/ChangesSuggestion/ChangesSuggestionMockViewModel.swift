@@ -1,5 +1,5 @@
 //
-//  ChangesSuggestionPresenter.swift
+//  ChangesSuggestionMockViewModel.swift
 //  VKR
 //
 //  Created by Руслан on 06.01.2024.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol IChangesSuggestionPresenter: AnyObject {
-    var changesDescription: AttributedString { get }
-    var fileChangesModels: [FileChangesModel] { get }
-}
-
-final class ChangesSuggestionPresenter: IChangesSuggestionPresenter {
+final class ChangesSuggestionMockViewModel {
 
     let changesDescription = try! AttributedString(markdown: "Класс **Class1** неявно ссылается на класс **Class2**, создавая его экземпляр внутри метода **method1**. Исправление заключается в использовании хранимого свойства __class1__, значение для которого передается через инициализатор.")
+    
+    lazy var fileChangesModels: [FileChangesModel] = [
+        FileChangesModel(fileName: "SomeFolder/SomeFile.swift", leftLines: leftDataSource, rightLines: rightDataSource),
+        FileChangesModel(fileName: "SomeFolder/SomeAnotherFile.swift", leftLines: leftDataSource, rightLines: rightDataSource)
+    ]
 
     private let leftDataSource: [LineModel] = [
         LineModel(text: "import Cocoa", status: .removed),
@@ -59,10 +59,5 @@ final class ChangesSuggestionPresenter: IChangesSuggestionPresenter {
         LineModel(text: "        anotherView.layer?.backgroundColor = NSColor.red.cgColor", status: .added),
         LineModel(text: "    }", status: .unchanged),
         LineModel(text: "}", status: .unchanged),
-    ]
-
-    lazy var fileChangesModels: [FileChangesModel] = [
-        FileChangesModel(fileName: "SomeFolder/SomeFile.swift", leftLines: leftDataSource, rightLines: rightDataSource),
-        FileChangesModel(fileName: "SomeFolder/SomeAnotherFile.swift", leftLines: leftDataSource, rightLines: rightDataSource)
     ]
 }
