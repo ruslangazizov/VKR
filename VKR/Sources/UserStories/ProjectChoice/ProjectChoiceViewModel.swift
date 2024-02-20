@@ -44,7 +44,7 @@ final class ProjectChoiceViewModel: ObservableObject {
         
         let manager = SwiftFilesManager(swiftFilesAbsolutePaths: filesAbsolutePaths)
         DispatchQueue.global(qos: .userInitiated).async {
-            manager.makeGraph()
+            manager.startAnalysis()
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 

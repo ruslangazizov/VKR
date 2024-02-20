@@ -14,7 +14,7 @@ final class NetworkService {
             return
         }
         
-        // неявная зависимость на URLSession.shared
+        // implicit dependency on URLSession.shared
         let task = URLSession.shared.dataTask(
             with: URLRequest(url: url)
         ) { data, response, error in

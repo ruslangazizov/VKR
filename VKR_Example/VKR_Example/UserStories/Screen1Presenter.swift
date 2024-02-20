@@ -13,11 +13,30 @@ protocol IScreen1Presenter: AnyObject {
 
 final class Screen1Presenter: IScreen1Presenter {
     
-    // неявная зависимость на NetworkService
+    // implicit dependency on NetworkService
     private let networkService = NetworkService()
     
     func viewDidLoad() {
         networkService.sendRequest()
+        // implicit dependency on DatabaseService
         let databaseService = DatabaseService()
+        let result = databaseService.saveSomething(someData: [1, 2, 3])
+    }
+}
+
+class AnotherPresenter {
+    
+    private let screen1Presenter: Screen1Presenter
+    private var someProperty = "someProperty"
+    
+    // implicit dependency on Screen1Presenter
+    init(screen1Presenter: Screen1Presenter) {
+        self.screen1Presenter = screen1Presenter
+    }
+    
+    func someMethod() {
+        screen1Presenter.viewDidLoad()
+        let networkService = NetworkService()
+        networkService.sendRequest()
     }
 }

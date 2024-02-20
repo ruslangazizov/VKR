@@ -13,6 +13,14 @@ struct VKRApp: App {
     var body: some Scene {
         WindowGroup(Constants.appName) {
             ProjectChoiceView()
+                .onAppear {
+                    let manager = SwiftFilesManager(swiftFilesAbsolutePaths: [
+                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/UserStories/Screen1Presenter.swift",
+                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NetworkService.swift",
+                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NestedGroup/DatabaseService.swift"
+                    ])
+                    manager.startAnalysis()
+                }
         }
     }
 }
