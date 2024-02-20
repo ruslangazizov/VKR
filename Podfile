@@ -1,4 +1,4 @@
-platform :osx, '13.2'
+platform :osx, '13.0'
 
 target 'VKR' do
   use_frameworks!
