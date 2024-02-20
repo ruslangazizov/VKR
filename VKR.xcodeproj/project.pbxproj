@@ -568,16 +568,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-syntax.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = 509.1.1;
 			};
 		};
 		97E5BF362B7E8C20003876AE /* XCRemoteSwiftPackageReference "XcodeProj" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tuist/XcodeProj";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
+				kind = exactVersion;
+				version = 8.18.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
