@@ -30,25 +30,6 @@ struct ChangesSuggestionView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.all, 8)
             
-            HStack {
-                Spacer()
-                
-                makeActionButton(action: { print(">>> did tap red button") },
-                                 title: "Отклонить",
-                                 systemImage: "xmark.circle",
-                                 color: .red)
-                
-                Spacer()
-                
-                makeActionButton(action: { print(">>> did tap green button") },
-                                 title: "Принять",
-                                 systemImage: "checkmark.circle",
-                                 color: .green)
-                
-                Spacer()
-            }
-            .frame(height: 35)
-            
             ForEach(0..<viewModel.fileChangesModels.count, id: \.self) { index in
                 let model = viewModel.fileChangesModels[index]
                 VStack(spacing: 0) {
@@ -76,6 +57,22 @@ struct ChangesSuggestionView: View {
                     }
                 }
             }
+            
+            HStack {
+                Spacer()
+                
+                makeActionButton(action: { print(">>> did tap red button") },
+                                 title: "Отклонить",
+                                 systemImage: "xmark.circle",
+                                 color: .red)
+                
+                makeActionButton(action: { print(">>> did tap green button") },
+                                 title: "Принять",
+                                 systemImage: "checkmark.circle",
+                                 color: .green)
+                .padding(.trailing, 10)
+            }
+            .frame(height: 35)
         }
     }
 
@@ -85,13 +82,12 @@ struct ChangesSuggestionView: View {
                                   title: String,
                                   systemImage: String,
                                   color: Color) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: systemImage)
-                .font(.title3)
-                .bold()
-        }
-        .background(color.opacity(0.6))
-        .cornerRadius(5)
+        Label(title, systemImage: systemImage)
+            .padding(6)
+            .font(.title3.bold())
+            .background(color.opacity(0.6))
+            .cornerRadius(5)
+            .onTapGesture(perform: action)
     }
 
     private func makeLine(_ line: LineModel) -> some View {

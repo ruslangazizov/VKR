@@ -16,6 +16,8 @@ final class Screen1Presenter: IScreen1Presenter {
     // implicit dependency on NetworkService
     private let networkService = NetworkService()
     
+    var s: String { "" }
+    
     func viewDidLoad() {
         networkService.sendRequest()
         // implicit dependency on DatabaseService
