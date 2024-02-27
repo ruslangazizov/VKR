@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DatabaseService {
+class DatabaseService {
     // implicit dependency on UserDefaults.standard
     let defaults = UserDefaults.standard
     

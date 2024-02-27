@@ -15,7 +15,7 @@ struct VKRApp: App {
             ProjectChoiceView()
                 .onAppear {
                     let manager = SwiftFilesManager(swiftFilesAbsolutePaths: [
-                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/UserStories/Screen1Presenter.swift",
+                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/TestClasses.swift",
                         "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NetworkService.swift",
                         "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NestedGroup/DatabaseService.swift"
                     ])

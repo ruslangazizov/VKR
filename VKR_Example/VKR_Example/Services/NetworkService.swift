@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NetworkService {
+class NetworkService {
     
     func sendRequest() {
         guard let url = URL(string: "www.google.com") else {
@@ -18,7 +18,7 @@ final class NetworkService {
         let task = URLSession.shared.dataTask(
             with: URLRequest(url: url)
         ) { data, response, error in
-            // какая-то логика
+            // some logic
         }
         task.resume()
     }

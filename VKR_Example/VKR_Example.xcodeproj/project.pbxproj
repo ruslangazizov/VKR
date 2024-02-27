@@ -16,7 +16,7 @@
 		97E5BF5F2B7E98F4003876AE /* VKR_ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5BF5E2B7E98F4003876AE /* VKR_ExampleTests.swift */; };
 		97E5BF692B7E98F4003876AE /* VKR_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5BF682B7E98F4003876AE /* VKR_ExampleUITests.swift */; };
 		97E5BF6B2B7E98F4003876AE /* VKR_ExampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5BF6A2B7E98F4003876AE /* VKR_ExampleUITestsLaunchTests.swift */; };
-		97E5BF792B7E9927003876AE /* Screen1Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5BF782B7E9927003876AE /* Screen1Presenter.swift */; };
+		97E5BF792B7E9927003876AE /* TestClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5BF782B7E9927003876AE /* TestClasses.swift */; };
 		97E5BF7C2B7E9966003876AE /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5BF7B2B7E9966003876AE /* NetworkService.swift */; };
 		97E5EF5E2B801FF2003876AE /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E5EF5D2B801FF2003876AE /* DatabaseService.swift */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,7 @@
 		97E5BF642B7E98F4003876AE /* VKR_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VKR_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E5BF682B7E98F4003876AE /* VKR_ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKR_ExampleUITests.swift; sourceTree = "<group>"; };
 		97E5BF6A2B7E98F4003876AE /* VKR_ExampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKR_ExampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		97E5BF782B7E9927003876AE /* Screen1Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen1Presenter.swift; sourceTree = "<group>"; };
+		97E5BF782B7E9927003876AE /* TestClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClasses.swift; sourceTree = "<group>"; };
 		97E5BF7B2B7E9966003876AE /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		97E5EF5D2B801FF2003876AE /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,8 +105,8 @@
 		97E5BF462B7E98F2003876AE /* VKR_Example */ = {
 			isa = PBXGroup;
 			children = (
+				97E5BF782B7E9927003876AE /* TestClasses.swift */,
 				97E5BF7A2B7E9954003876AE /* Services */,
-				97E5BF772B7E9907003876AE /* UserStories */,
 				97E5BF472B7E98F2003876AE /* AppDelegate.swift */,
 				97E5BF492B7E98F2003876AE /* SceneDelegate.swift */,
 				97E5BF4B2B7E98F2003876AE /* ViewController.swift */,
@@ -133,14 +133,6 @@
 				97E5BF6A2B7E98F4003876AE /* VKR_ExampleUITestsLaunchTests.swift */,
 			);
 			path = VKR_ExampleUITests;
-			sourceTree = "<group>";
-		};
-		97E5BF772B7E9907003876AE /* UserStories */ = {
-			isa = PBXGroup;
-			children = (
-				97E5BF782B7E9927003876AE /* Screen1Presenter.swift */,
-			);
-			path = UserStories;
 			sourceTree = "<group>";
 		};
 		97E5BF7A2B7E9954003876AE /* Services */ = {
@@ -295,7 +287,7 @@
 				97E5BF7C2B7E9966003876AE /* NetworkService.swift in Sources */,
 				97E5BF4C2B7E98F2003876AE /* ViewController.swift in Sources */,
 				97E5BF482B7E98F2003876AE /* AppDelegate.swift in Sources */,
-				97E5BF792B7E9927003876AE /* Screen1Presenter.swift in Sources */,
+				97E5BF792B7E9927003876AE /* TestClasses.swift in Sources */,
 				97E5BF4A2B7E98F2003876AE /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
