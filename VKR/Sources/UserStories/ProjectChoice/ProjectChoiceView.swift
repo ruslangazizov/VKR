@@ -58,7 +58,7 @@ struct ProjectChoiceView: View {
                         .cornerRadius(10)
                         .keyboardShortcut(.defaultAction)
                         .navigationDestination(for: String.self) { _ in
-                            ChangesSuggestionView()
+                            viewModel.createChangesSuggestionView()
                         }
                     }
                     .padding()

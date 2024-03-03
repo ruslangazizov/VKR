@@ -55,6 +55,10 @@ final class ProjectChoiceViewModel: ObservableObject {
         }
     }
     
+    func createChangesSuggestionView() -> ChangesSuggestionView {
+        ChangesSuggestionView()
+    }
+    
     // MARK: - Private
     
     private func convertToFilesAbsolutePaths(buildFiles: [PBXBuildFile], projectPath: String) -> [String] {
