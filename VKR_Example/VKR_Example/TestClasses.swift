@@ -1,7 +1,6 @@
 import Foundation
 
 class FirstClass {
-    
     private let secondClass: SecondClass
     
     // implicit dependency on Screen1Presenter
@@ -23,7 +22,6 @@ class FirstClass {
 }
 
 class SecondClass {
-    
     // implicit dependency on NetworkService
     private let networkService = NetworkService()
     
