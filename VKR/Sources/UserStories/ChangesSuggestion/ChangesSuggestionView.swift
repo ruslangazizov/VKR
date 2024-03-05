@@ -31,17 +31,17 @@ struct ChangesSuggestionView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.all, 8)
                 
-                ForEach(0..<model.fileChangesModels.count, id: \.self) { index in
-                    let model = model.fileChangesModels[index]
-                    VStack(spacing: 0) {
-                        Text(model.fileName)
-                            .font(.title2)
-                            .padding(6)
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.white)
-                            .background(Color.fileNameBackground)
-                        
-                        ScrollView {
+                ScrollView {
+                    ForEach(0..<model.fileChangesModels.count, id: \.self) { index in
+                        let model = model.fileChangesModels[index]
+                        VStack(spacing: 0) {
+                            Text(model.fileName)
+                                .font(.title2)
+                                .padding(6)
+                                .frame(maxWidth: .infinity)
+                                .foregroundColor(.white)
+                                .background(Color.fileNameBackground)
+                            
                             VStack(spacing: .zero) {
                                 ForEach(0..<linesCount(for: model), id: \.self) { index in
                                     HStack(spacing: .zero) {
@@ -57,23 +57,23 @@ struct ChangesSuggestionView: View {
                             }
                         }
                     }
-                }
-                
-                HStack {
-                    Spacer()
                     
-                    makeActionButton(action: { print(">>> did tap red button") },
-                                     title: "Отклонить",
-                                     systemImage: "xmark.circle",
-                                     color: .red)
-                    
-                    makeActionButton(action: { print(">>> did tap green button") },
-                                     title: "Принять",
-                                     systemImage: "checkmark.circle",
-                                     color: .green)
+                    HStack {
+                        Spacer()
+                        
+                        makeActionButton(action: { print(">>> did tap red button") },
+                                         title: "Отклонить",
+                                         systemImage: "xmark.circle",
+                                         color: .red)
+                        
+                        makeActionButton(action: { print(">>> did tap green button") },
+                                         title: "Принять",
+                                         systemImage: "checkmark.circle",
+                                         color: .green)
+                    }
                     .padding(.trailing, 10)
+                    .padding(.bottom, 10)
                 }
-                .frame(height: 35)
             }
         } else {
             VStack {

@@ -24,6 +24,10 @@ class FirstClass {
 class SecondClass {
     // implicit dependency on NetworkService
     private let networkService = NetworkService()
+    public var secondClassProperty1: String {
+        "Hello, world!"
+    }
+    var secondClassProperty2: Int = 1
     
     func secondClassMethod1() {
         networkService.sendRequest()
@@ -31,10 +35,4 @@ class SecondClass {
         let databaseService = DatabaseService()
         _ = databaseService.saveSomething(someData: [1, 2, 3])
     }
-    
-    var secondClassProperty1: String {
-        "Hello, world!"
-    }
-    
-    public var secondClassProperty2: Int = 1
 }
