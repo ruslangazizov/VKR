@@ -12,10 +12,9 @@ import UniformTypeIdentifiers
 final class ProjectChoiceViewModel: ObservableObject {
     
     // Properties
-    @Published var projectPath: String? // = "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example.xcodeproj"
+    @Published var projectPath: String?
     @Published var includedFilesRegExp: String = ""
     @Published var excludedFilesRegExp: String = ""
-    @Published var isAnalysisInProgress = false
     @Published var path = NavigationPath()
     
     // MARK: - Internal
@@ -33,30 +32,21 @@ final class ProjectChoiceViewModel: ObservableObject {
     
     func startAnalysis() {
         guard let projectPath, let xcodeproj = try? XcodeProj(pathString: projectPath) else { return }
-        isAnalysisInProgress = true
+        
+        // Navigate to next screen
+        path.append(NavigationPathScreen.changesSuggestion)
         
 //        guard let desiredGroupName = projectPath.split(separator: "/").last?.split(separator: ".").first,
 //              let group = xcodeproj.pbxproj.groups.first(where: { $0.path == String(desiredGroupName) }) else { return }
         let filesAbsolutePaths = convertToFilesAbsolutePaths(buildFiles: xcodeproj.pbxproj.buildFiles,
                                                              projectPath: projectPath)
         let filteredFilesAbsolutePaths = filterFilesAbsolutePaths(filesAbsolutePaths)
-        print(filteredFilesAbsolutePaths.joined(separator: "\n"))
-        
-        let manager = SwiftFilesManager(swiftFilesAbsolutePaths: filesAbsolutePaths)
-        DispatchQueue.global(qos: .userInitiated).async {
-            manager.startAnalysis()
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                
-                // Navigate to next screen
-                self.path.append(String(describing: ChangesSuggestionView.self)) // TODO: изменить на добавление модели
-                self.isAnalysisInProgress = false
-            }
-        }
+        let manager = SwiftFilesManager(swiftFilesAbsolutePaths: filteredFilesAbsolutePaths)
+        manager.startAnalysis()
     }
     
     func createChangesSuggestionView() -> ChangesSuggestionView {
-        ChangesSuggestionView()
+        ChangesSuggestionView(viewModel: ChangesSuggestionViewModel())
     }
     
     // MARK: - Private

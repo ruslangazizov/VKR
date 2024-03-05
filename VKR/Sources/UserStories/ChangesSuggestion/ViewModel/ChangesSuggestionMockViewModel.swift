@@ -7,14 +7,23 @@
 
 import Foundation
 
-final class ChangesSuggestionMockViewModel {
-
-    let changesDescription = try! AttributedString(markdown: "Класс **Class1** неявно ссылается на класс **Class2**, создавая его экземпляр внутри метода **method1**. Исправление заключается в использовании хранимого свойства __class1__, значение для которого передается через инициализатор.")
+final class ChangesSuggestionMockViewModel: IChangesSuggestionViewModel {
     
-    lazy var fileChangesModels: [FileChangesModel] = [
-        FileChangesModel(fileName: "SomeFolder/SomeFile.swift", leftLines: leftDataSource, rightLines: rightDataSource),
-        FileChangesModel(fileName: "SomeFolder/SomeAnotherFile.swift", leftLines: leftDataSource, rightLines: rightDataSource)
-    ]
+    // Properties
+    var model: ChangesSuggestionModel?
+    
+    // MARK: - Initialization
+    
+    init() {
+        let changesDescription = try! AttributedString(markdown: "Класс **Class1** неявно ссылается на класс **Class2**, создавая его экземпляр внутри метода **method1**. Исправление заключается в использовании хранимого свойства __class1__, значение для которого передается через инициализатор.")
+        let fileChangesModels = [
+            FileChangesModel(fileName: "SomeFolder/SomeFile.swift", leftLines: leftDataSource, rightLines: rightDataSource),
+            FileChangesModel(fileName: "SomeFolder/AnotherFile.swift", leftLines: leftDataSource, rightLines: rightDataSource)
+        ]
+        self.model = ChangesSuggestionModel(changesDescription: changesDescription, fileChangesModels: fileChangesModels)
+    }
+    
+    // MARK: - Private
 
     private let leftDataSource: [LineModel] = [
         LineModel(text: "import Cocoa", status: .removed),
@@ -37,7 +46,6 @@ final class ChangesSuggestionMockViewModel {
         LineModel(text: "    }", status: .unchanged),
         LineModel(text: "}", status: .unchanged),
     ]
-    //            .split(separator: "\n", omittingEmptySubsequences: false).map { String($0) }
 
     private let rightDataSource: [LineModel] = [
         LineModel(text: "import AppKit", status: .added),

@@ -13,6 +13,7 @@ struct VKRApp: App {
     var body: some Scene {
         WindowGroup(Constants.appName) {
             ProjectChoiceView()
+                // TODO: удалить после завершения разработки
                 .onAppear {
                     let manager = SwiftFilesManager(swiftFilesAbsolutePaths: [
                         "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/TestClasses.swift",

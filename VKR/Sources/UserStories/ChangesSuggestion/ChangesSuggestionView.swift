@@ -19,60 +19,75 @@ private extension Color {
 struct ChangesSuggestionView: View {
 
     // Dependencies
-    private let viewModel = ChangesSuggestionMockViewModel()
+    let viewModel: IChangesSuggestionViewModel
 
     // MARK: - View
 
     var body: some View {
-        VStack(spacing: .zero) {
-            Text(viewModel.changesDescription)
-                .font(.title3)
-                .frame(maxWidth: .infinity)
-                .padding(.all, 8)
-            
-            ForEach(0..<viewModel.fileChangesModels.count, id: \.self) { index in
-                let model = viewModel.fileChangesModels[index]
-                VStack(spacing: 0) {
-                    Text(model.fileName)
-                        .font(.title2)
-                        .padding(6)
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.white)
-                        .background(Color.fileNameBackground)
-                    
-                    ScrollView {
-                        VStack(spacing: .zero) {
-                            ForEach(0..<linesCount(for: model), id: \.self) { index in
-                                HStack(spacing: .zero) {
-                                    makeLine(model.leftLines[index])
-                                    
-                                    Rectangle()
-                                        .frame(width: 2)
-                                        .foregroundColor(.fileVersionsSeparator)
-                                    
-                                    makeLine(model.rightLines[index])
+        if let model = viewModel.model {
+            VStack(spacing: .zero) {
+                Text(model.changesDescription)
+                    .font(.title3)
+                    .frame(maxWidth: .infinity)
+                    .padding(.all, 8)
+                
+                ForEach(0..<model.fileChangesModels.count, id: \.self) { index in
+                    let model = model.fileChangesModels[index]
+                    VStack(spacing: 0) {
+                        Text(model.fileName)
+                            .font(.title2)
+                            .padding(6)
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.white)
+                            .background(Color.fileNameBackground)
+                        
+                        ScrollView {
+                            VStack(spacing: .zero) {
+                                ForEach(0..<linesCount(for: model), id: \.self) { index in
+                                    HStack(spacing: .zero) {
+                                        makeLine(model.leftLines[index])
+                                        
+                                        Rectangle()
+                                            .frame(width: 2)
+                                            .foregroundColor(.fileVersionsSeparator)
+                                        
+                                        makeLine(model.rightLines[index])
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                
+                HStack {
+                    Spacer()
+                    
+                    makeActionButton(action: { print(">>> did tap red button") },
+                                     title: "Отклонить",
+                                     systemImage: "xmark.circle",
+                                     color: .red)
+                    
+                    makeActionButton(action: { print(">>> did tap green button") },
+                                     title: "Принять",
+                                     systemImage: "checkmark.circle",
+                                     color: .green)
+                    .padding(.trailing, 10)
+                }
+                .frame(height: 35)
             }
-            
-            HStack {
+        } else {
+            VStack {
                 Spacer()
                 
-                makeActionButton(action: { print(">>> did tap red button") },
-                                 title: "Отклонить",
-                                 systemImage: "xmark.circle",
-                                 color: .red)
+                ProgressView("Выполняется анализ проекта...")
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .font(.title)
+                    .padding()
+                    .background(Color(red: 0.2, green: 0.2, blue: 0.2))
+                    .cornerRadius(16)
                 
-                makeActionButton(action: { print(">>> did tap green button") },
-                                 title: "Принять",
-                                 systemImage: "checkmark.circle",
-                                 color: .green)
-                .padding(.trailing, 10)
+                Spacer()
             }
-            .frame(height: 35)
         }
     }
 
@@ -128,6 +143,6 @@ struct ChangesSuggestionView: View {
 struct ChangesSuggestionView_Previews: PreviewProvider {
 
     static var previews: some View {
-        ChangesSuggestionView()
+        ChangesSuggestionView(viewModel: ChangesSuggestionMockViewModel())
     }
 }

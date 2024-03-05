@@ -24,6 +24,10 @@
 		977D17012B8E640B00F2970E /* SourceFileSyntaxRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977D17002B8E640B00F2970E /* SourceFileSyntaxRef.swift */; };
 		977D17032B8E642800F2970E /* ClassDeclSyntaxRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977D17022B8E642800F2970E /* ClassDeclSyntaxRef.swift */; };
 		977D17052B8E644700F2970E /* ProtocolDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977D17042B8E644700F2970E /* ProtocolDescription.swift */; };
+		977DA0EE2B970CBB00F2970E /* ChangesSuggestionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0ED2B970CBB00F2970E /* ChangesSuggestionModel.swift */; };
+		977DA0F02B970DD400F2970E /* IChangesSuggestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0EF2B970DD400F2970E /* IChangesSuggestionViewModel.swift */; };
+		977DA0F32B97168400F2970E /* ChangesSuggestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0F22B97168400F2970E /* ChangesSuggestionViewModel.swift */; };
+		977DA0F52B9729A400F2970E /* NavigationPathScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0F42B9729A400F2970E /* NavigationPathScreen.swift */; };
 		97E516D32B835F04003876AE /* SwiftBasicFormat in Frameworks */ = {isa = PBXBuildFile; productRef = 97E516D22B835F04003876AE /* SwiftBasicFormat */; };
 		97E516D52B835F04003876AE /* SwiftCompilerPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 97E516D42B835F04003876AE /* SwiftCompilerPlugin */; };
 		97E516D72B835F04003876AE /* SwiftCompilerPluginMessageHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 97E516D62B835F04003876AE /* SwiftCompilerPluginMessageHandling */; };
@@ -65,6 +69,10 @@
 		977D17002B8E640B00F2970E /* SourceFileSyntaxRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceFileSyntaxRef.swift; sourceTree = "<group>"; };
 		977D17022B8E642800F2970E /* ClassDeclSyntaxRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDeclSyntaxRef.swift; sourceTree = "<group>"; };
 		977D17042B8E644700F2970E /* ProtocolDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolDescription.swift; sourceTree = "<group>"; };
+		977DA0ED2B970CBB00F2970E /* ChangesSuggestionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesSuggestionModel.swift; sourceTree = "<group>"; };
+		977DA0EF2B970DD400F2970E /* IChangesSuggestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IChangesSuggestionViewModel.swift; sourceTree = "<group>"; };
+		977DA0F22B97168400F2970E /* ChangesSuggestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesSuggestionViewModel.swift; sourceTree = "<group>"; };
+		977DA0F42B9729A400F2970E /* NavigationPathScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPathScreen.swift; sourceTree = "<group>"; };
 		97E5BF392B7E8CB6003876AE /* ProjectChoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectChoiceViewModel.swift; sourceTree = "<group>"; };
 		97E5EF602B803C05003876AE /* NSRegularExpression+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRegularExpression+Extensions.swift"; sourceTree = "<group>"; };
 		97E5EF622B810DF6003876AE /* SwiftFilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftFilesManager.swift; sourceTree = "<group>"; };
@@ -107,8 +115,9 @@
 		44A3C4412B4AE864008C735F /* ChangesSuggestion */ = {
 			isa = PBXGroup;
 			children = (
+				977DA0F12B97167100F2970E /* ViewModel */,
 				44F6CD082B49C89D00A39C89 /* ChangesSuggestionView.swift */,
-				44F6CD152B49CBAF00A39C89 /* ChangesSuggestionMockViewModel.swift */,
+				977DA0ED2B970CBB00F2970E /* ChangesSuggestionModel.swift */,
 			);
 			path = ChangesSuggestion;
 			sourceTree = "<group>";
@@ -118,6 +127,7 @@
 			children = (
 				44A3C44E2B4C7B52008C735F /* ProjectChoice */,
 				44A3C4412B4AE864008C735F /* ChangesSuggestion */,
+				977DA0F42B9729A400F2970E /* NavigationPathScreen.swift */,
 			);
 			path = UserStories;
 			sourceTree = "<group>";
@@ -225,6 +235,16 @@
 				977D17042B8E644700F2970E /* ProtocolDescription.swift */,
 			);
 			path = SwiftSyntax;
+			sourceTree = "<group>";
+		};
+		977DA0F12B97167100F2970E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				977DA0EF2B970DD400F2970E /* IChangesSuggestionViewModel.swift */,
+				977DA0F22B97168400F2970E /* ChangesSuggestionViewModel.swift */,
+				44F6CD152B49CBAF00A39C89 /* ChangesSuggestionMockViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		97E516EC2B838490003876AE /* Sources */ = {
@@ -384,16 +404,20 @@
 				97E5EF632B810DF6003876AE /* SwiftFilesManager.swift in Sources */,
 				977D16FD2B8E628D00F2970E /* PropertyUsagesFinder.swift in Sources */,
 				44A3C4472B4AE88D008C735F /* ArraysDiffFinder.swift in Sources */,
+				977DA0F52B9729A400F2970E /* NavigationPathScreen.swift in Sources */,
 				97E5EF612B803C05003876AE /* NSRegularExpression+Extensions.swift in Sources */,
 				977D17032B8E642800F2970E /* ClassDeclSyntaxRef.swift in Sources */,
+				977DA0F02B970DD400F2970E /* IChangesSuggestionViewModel.swift in Sources */,
 				44F6CD092B49C89D00A39C89 /* ChangesSuggestionView.swift in Sources */,
 				44F6CD162B49CBAF00A39C89 /* ChangesSuggestionMockViewModel.swift in Sources */,
 				977D17052B8E644700F2970E /* ProtocolDescription.swift in Sources */,
 				44F6CD072B49C89D00A39C89 /* VKRApp.swift in Sources */,
 				97E5BF3A2B7E8CB6003876AE /* ProjectChoiceViewModel.swift in Sources */,
+				977DA0EE2B970CBB00F2970E /* ChangesSuggestionModel.swift in Sources */,
 				44ACDCCC2B7D485E00DCC7F5 /* FileChangesModel.swift in Sources */,
 				973DE99A2B85498000A4EE94 /* Array+Extensions.swift in Sources */,
 				44A3C4452B4AE88D008C735F /* Constants.swift in Sources */,
+				977DA0F32B97168400F2970E /* ChangesSuggestionViewModel.swift in Sources */,
 				977D17012B8E640B00F2970E /* SourceFileSyntaxRef.swift in Sources */,
 				44A3C4462B4AE88D008C735F /* StringClass.swift in Sources */,
 				44A3C4502B4C7B8E008C735F /* ProjectChoiceView.swift in Sources */,

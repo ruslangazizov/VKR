@@ -57,20 +57,20 @@ struct ProjectChoiceView: View {
                         .background(Color.accentColor)
                         .cornerRadius(10)
                         .keyboardShortcut(.defaultAction)
-                        .navigationDestination(for: String.self) { _ in
-                            viewModel.createChangesSuggestionView()
-                        }
                     }
                     .padding()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .contentShape(Rectangle())
-            .blur(radius: viewModel.isAnalysisInProgress ? 5 : 0)
             .onTapGesture {
                 makeFirstResponderNil()
             }
-            .overlay(loadingOverlayView)
+            .navigationDestination(for: NavigationPathScreen.self) { screen in
+                if case .changesSuggestion = screen {
+                    viewModel.createChangesSuggestionView()
+                }
+            }
         }
     }
     
@@ -87,21 +87,6 @@ struct ProjectChoiceView: View {
             Text(".swift")
         }
         .font(.title3)
-    }
-    
-    @ViewBuilder private var loadingOverlayView: some View {
-        if viewModel.isAnalysisInProgress {
-            ZStack {
-                Color(white: 0, opacity: 0.5)
-                
-                ProgressView("Выполняется анализ проекта...")
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .font(.title)
-                    .padding()
-                    .background(Color(red: 0.2, green: 0.2, blue: 0.2))
-                    .cornerRadius(16)
-            }
-        }
     }
     
     // MARK: - Private Methods
