@@ -7,6 +7,9 @@
 
 import Foundation
 
-protocol IChangesSuggestionViewModel: AnyObject {
+protocol IChangesSuggestionViewModel: ObservableObject {
     var model: ChangesSuggestionModel? { get }
+    func viewDidAppear()
+    func didTapDiscardButton()
+    func didTapAcceptButton()
 }

@@ -16,78 +16,78 @@ private extension Color {
     static let emptyLine = Color(.displayP3, red: 0.137, green: 0.149, blue: 0.169)
 }
 
-struct ChangesSuggestionView: View {
+struct ChangesSuggestionView<ViewModel>: View where ViewModel: IChangesSuggestionViewModel {
 
     // Dependencies
-    let viewModel: IChangesSuggestionViewModel
+    @ObservedObject var viewModel: ViewModel
 
     // MARK: - View
 
     var body: some View {
-        if let model = viewModel.model {
-            VStack(spacing: .zero) {
-                Text(model.changesDescription)
-                    .font(.title3)
-                    .frame(maxWidth: .infinity)
-                    .padding(.all, 8)
-                
-                ScrollView {
-                    ForEach(0..<model.fileChangesModels.count, id: \.self) { index in
-                        let model = model.fileChangesModels[index]
-                        VStack(spacing: 0) {
-                            Text(model.fileName)
-                                .font(.title2)
-                                .padding(6)
-                                .frame(maxWidth: .infinity)
-                                .foregroundColor(.white)
-                                .background(Color.fileNameBackground)
-                            
-                            VStack(spacing: .zero) {
-                                ForEach(0..<linesCount(for: model), id: \.self) { index in
-                                    HStack(spacing: .zero) {
-                                        makeLine(model.leftLines[index])
-                                        
-                                        Rectangle()
-                                            .frame(width: 2)
-                                            .foregroundColor(.fileVersionsSeparator)
-                                        
-                                        makeLine(model.rightLines[index])
+        ZStack {
+            if let model = viewModel.model {
+                VStack(spacing: .zero) {
+                    ScrollView {
+                        ForEach(0..<model.fileChangesModels.count, id: \.self) { index in
+                            let model = model.fileChangesModels[index]
+                            VStack(spacing: 0) {
+                                Text(model.fileName)
+                                    .font(.title2)
+                                    .padding(6)
+                                    .frame(maxWidth: .infinity)
+                                    .foregroundColor(.white)
+                                    .background(Color.fileNameBackground)
+                                
+                                VStack(spacing: .zero) {
+                                    ForEach(0..<linesCount(for: model), id: \.self) { index in
+                                        HStack(spacing: .zero) {
+                                            makeLine(model.leftLines[index])
+                                            
+                                            Rectangle()
+                                                .frame(width: 2)
+                                                .foregroundColor(.fileVersionsSeparator)
+                                            
+                                            makeLine(model.rightLines[index])
+                                        }
                                     }
                                 }
                             }
                         }
+                        
+                        HStack {
+                            Spacer()
+                            
+                            makeActionButton(action: { viewModel.didTapDiscardButton() },
+                                             title: "Отклонить",
+                                             systemImage: "xmark.circle",
+                                             color: .red)
+                            
+                            makeActionButton(action: { viewModel.didTapAcceptButton() },
+                                             title: "Принять",
+                                             systemImage: "checkmark.circle",
+                                             color: .green)
+                        }
+                        .padding(.trailing, 10)
+                        .padding(.bottom, 10)
                     }
+                }
+            } else {
+                VStack {
+                    Spacer()
                     
-                    HStack {
-                        Spacer()
-                        
-                        makeActionButton(action: { print(">>> did tap red button") },
-                                         title: "Отклонить",
-                                         systemImage: "xmark.circle",
-                                         color: .red)
-                        
-                        makeActionButton(action: { print(">>> did tap green button") },
-                                         title: "Принять",
-                                         systemImage: "checkmark.circle",
-                                         color: .green)
-                    }
-                    .padding(.trailing, 10)
-                    .padding(.bottom, 10)
+                    ProgressView("Выполняется анализ проекта...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .font(.title)
+                        .padding()
+                        .background(Color(red: 0.2, green: 0.2, blue: 0.2))
+                        .cornerRadius(16)
+                    
+                    Spacer()
                 }
             }
-        } else {
-            VStack {
-                Spacer()
-                
-                ProgressView("Выполняется анализ проекта...")
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .font(.title)
-                    .padding()
-                    .background(Color(red: 0.2, green: 0.2, blue: 0.2))
-                    .cornerRadius(16)
-                
-                Spacer()
-            }
+        }
+        .onAppear {
+            viewModel.viewDidAppear()
         }
     }
 
@@ -121,7 +121,7 @@ struct ChangesSuggestionView: View {
     // MARK: - Private Methods
     
     private func linesCount(for fileChangesModel: FileChangesModel) -> Int {
-        max(fileChangesModel.leftLines.count, fileChangesModel.rightLines.count)
+        min(fileChangesModel.leftLines.count, fileChangesModel.rightLines.count)
     }
 
     private func lineColor(for lineStatus: LineModel.Status) -> Color {

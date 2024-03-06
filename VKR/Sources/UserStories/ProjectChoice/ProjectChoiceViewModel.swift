@@ -9,17 +9,17 @@ import SwiftUI
 import XcodeProj
 import UniformTypeIdentifiers
 
-final class ProjectChoiceViewModel: ObservableObject {
+final class ProjectChoiceViewModel: ObservableObject, NavigationDelegate {
     
     // Properties
-    @Published var projectPath: String?
+    @Published var projectPath: String? = "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example.xcodeproj"
     @Published var includedFilesRegExp: String = ""
     @Published var excludedFilesRegExp: String = ""
     @Published var path = NavigationPath()
     
     // MARK: - Internal
     
-    func showPanel() {
+    func didTapSelectProjectButton() {
         let panel = NSOpenPanel()
         panel.canChooseDirectories = false
         if let t = UTType(tag: "xcodeproj", tagClass: .filenameExtension, conformingTo: .compositeContent) {
@@ -30,23 +30,27 @@ final class ProjectChoiceViewModel: ObservableObject {
         }
     }
     
-    func startAnalysis() {
+    func didTapStartAnalysisButton() {
         guard let projectPath, let xcodeproj = try? XcodeProj(pathString: projectPath) else { return }
         
-        // Navigate to next screen
-        path.append(NavigationPathScreen.changesSuggestion)
-        
-//        guard let desiredGroupName = projectPath.split(separator: "/").last?.split(separator: ".").first,
-//              let group = xcodeproj.pbxproj.groups.first(where: { $0.path == String(desiredGroupName) }) else { return }
         let filesAbsolutePaths = convertToFilesAbsolutePaths(buildFiles: xcodeproj.pbxproj.buildFiles,
                                                              projectPath: projectPath)
         let filteredFilesAbsolutePaths = filterFilesAbsolutePaths(filesAbsolutePaths)
-        let manager = SwiftFilesManager(swiftFilesAbsolutePaths: filteredFilesAbsolutePaths)
-        manager.startAnalysis()
+        
+        // Navigate to next screen
+        path.append(NavigationPathScreen.changesSuggestion(swiftFilesAbsolutePaths: filteredFilesAbsolutePaths))
     }
     
-    func createChangesSuggestionView() -> ChangesSuggestionView {
-        ChangesSuggestionView(viewModel: ChangesSuggestionViewModel())
+    func createChangesSuggestionView(swiftFilesAbsolutePaths: [String]) -> ChangesSuggestionView<ChangesSuggestionViewModel> {
+        let manager = SwiftFilesManager(swiftFilesAbsolutePaths: swiftFilesAbsolutePaths)
+        let viewModel = ChangesSuggestionViewModel(manager: manager, navigationDelegate: self)
+        return ChangesSuggestionView(viewModel: viewModel)
+    }
+    
+    // MARK: - NavigationDelegate
+    
+    func removeLastPathComponent() {
+        path.removeLast()
     }
     
     // MARK: - Private

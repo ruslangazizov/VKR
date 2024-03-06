@@ -18,7 +18,7 @@ struct ProjectChoiceView: View {
         NavigationStack(path: $viewModel.path) {
             VStack {
                 Button("Выберите xcodeproj проект") {
-                    viewModel.showPanel()
+                    viewModel.didTapSelectProjectButton()
                 }
                 .buttonStyle(PlainButtonStyle())
                 .font(.title2)
@@ -47,7 +47,7 @@ struct ProjectChoiceView: View {
                         
                         Button("Начать анализ") {
                             makeFirstResponderNil()
-                            viewModel.startAnalysis()
+                            viewModel.didTapStartAnalysisButton()
                         }
                         .buttonStyle(PlainButtonStyle())
                         .font(.title)
@@ -67,8 +67,8 @@ struct ProjectChoiceView: View {
                 makeFirstResponderNil()
             }
             .navigationDestination(for: NavigationPathScreen.self) { screen in
-                if case .changesSuggestion = screen {
-                    viewModel.createChangesSuggestionView()
+                if case .changesSuggestion(let paths) = screen {
+                    viewModel.createChangesSuggestionView(swiftFilesAbsolutePaths: paths)
                 }
             }
         }

@@ -15,12 +15,12 @@ struct VKRApp: App {
             ProjectChoiceView()
                 // TODO: удалить после завершения разработки
                 .onAppear {
-                    let manager = SwiftFilesManager(swiftFilesAbsolutePaths: [
-                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/TestClasses.swift",
-                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NetworkService.swift",
-                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NestedGroup/DatabaseService.swift"
-                    ])
-                    manager.startAnalysis()
+//                    let manager = SwiftFilesManager(swiftFilesAbsolutePaths: [
+//                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/TestClasses.swift",
+//                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NetworkService.swift",
+//                        "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example/Services/NestedGroup/DatabaseService.swift"
+//                    ])
+//                    let graph = manager.createGraph()
                 }
         }
     }

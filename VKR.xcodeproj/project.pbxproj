@@ -28,6 +28,8 @@
 		977DA0F02B970DD400F2970E /* IChangesSuggestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0EF2B970DD400F2970E /* IChangesSuggestionViewModel.swift */; };
 		977DA0F32B97168400F2970E /* ChangesSuggestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0F22B97168400F2970E /* ChangesSuggestionViewModel.swift */; };
 		977DA0F52B9729A400F2970E /* NavigationPathScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0F42B9729A400F2970E /* NavigationPathScreen.swift */; };
+		977DA0F72B97BDDE00F2970E /* SyntaxBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0F62B97BDDE00F2970E /* SyntaxBuilder.swift */; };
+		977DA0F92B97C1B100F2970E /* Trivia+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 977DA0F82B97C1B100F2970E /* Trivia+Extensions.swift */; };
 		97E516D32B835F04003876AE /* SwiftBasicFormat in Frameworks */ = {isa = PBXBuildFile; productRef = 97E516D22B835F04003876AE /* SwiftBasicFormat */; };
 		97E516D52B835F04003876AE /* SwiftCompilerPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 97E516D42B835F04003876AE /* SwiftCompilerPlugin */; };
 		97E516D72B835F04003876AE /* SwiftCompilerPluginMessageHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 97E516D62B835F04003876AE /* SwiftCompilerPluginMessageHandling */; };
@@ -73,6 +75,8 @@
 		977DA0EF2B970DD400F2970E /* IChangesSuggestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IChangesSuggestionViewModel.swift; sourceTree = "<group>"; };
 		977DA0F22B97168400F2970E /* ChangesSuggestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesSuggestionViewModel.swift; sourceTree = "<group>"; };
 		977DA0F42B9729A400F2970E /* NavigationPathScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationPathScreen.swift; sourceTree = "<group>"; };
+		977DA0F62B97BDDE00F2970E /* SyntaxBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxBuilder.swift; sourceTree = "<group>"; };
+		977DA0F82B97C1B100F2970E /* Trivia+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Trivia+Extensions.swift"; sourceTree = "<group>"; };
 		97E5BF392B7E8CB6003876AE /* ProjectChoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectChoiceViewModel.swift; sourceTree = "<group>"; };
 		97E5EF602B803C05003876AE /* NSRegularExpression+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRegularExpression+Extensions.swift"; sourceTree = "<group>"; };
 		97E5EF622B810DF6003876AE /* SwiftFilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftFilesManager.swift; sourceTree = "<group>"; };
@@ -125,9 +129,9 @@
 		44A3C4482B4AE9B1008C735F /* UserStories */ = {
 			isa = PBXGroup;
 			children = (
+				977DA0F42B9729A400F2970E /* NavigationPathScreen.swift */,
 				44A3C44E2B4C7B52008C735F /* ProjectChoice */,
 				44A3C4412B4AE864008C735F /* ChangesSuggestion */,
-				977DA0F42B9729A400F2970E /* NavigationPathScreen.swift */,
 			);
 			path = UserStories;
 			sourceTree = "<group>";
@@ -233,6 +237,7 @@
 				977D17002B8E640B00F2970E /* SourceFileSyntaxRef.swift */,
 				977D17022B8E642800F2970E /* ClassDeclSyntaxRef.swift */,
 				977D17042B8E644700F2970E /* ProtocolDescription.swift */,
+				977DA0F62B97BDDE00F2970E /* SyntaxBuilder.swift */,
 			);
 			path = SwiftSyntax;
 			sourceTree = "<group>";
@@ -262,6 +267,7 @@
 			children = (
 				97E5EF602B803C05003876AE /* NSRegularExpression+Extensions.swift */,
 				973DE9992B85498000A4EE94 /* Array+Extensions.swift */,
+				977DA0F82B97C1B100F2970E /* Trivia+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -400,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				977DA0F92B97C1B100F2970E /* Trivia+Extensions.swift in Sources */,
 				44A3C44D2B4AEBDE008C735F /* LineModel.swift in Sources */,
 				97E5EF632B810DF6003876AE /* SwiftFilesManager.swift in Sources */,
 				977D16FD2B8E628D00F2970E /* PropertyUsagesFinder.swift in Sources */,
@@ -412,6 +419,7 @@
 				44F6CD162B49CBAF00A39C89 /* ChangesSuggestionMockViewModel.swift in Sources */,
 				977D17052B8E644700F2970E /* ProtocolDescription.swift in Sources */,
 				44F6CD072B49C89D00A39C89 /* VKRApp.swift in Sources */,
+				977DA0F72B97BDDE00F2970E /* SyntaxBuilder.swift in Sources */,
 				97E5BF3A2B7E8CB6003876AE /* ProjectChoiceViewModel.swift in Sources */,
 				977DA0EE2B970CBB00F2970E /* ChangesSuggestionModel.swift in Sources */,
 				44ACDCCC2B7D485E00DCC7F5 /* FileChangesModel.swift in Sources */,

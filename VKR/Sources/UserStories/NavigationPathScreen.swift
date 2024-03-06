@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NavigationPathScreen {
-    case changesSuggestion
+enum NavigationPathScreen: Hashable {
+    case changesSuggestion(swiftFilesAbsolutePaths: [String])
     case optimizationResults
 }

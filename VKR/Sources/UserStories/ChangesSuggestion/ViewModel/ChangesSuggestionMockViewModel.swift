@@ -15,13 +15,20 @@ final class ChangesSuggestionMockViewModel: IChangesSuggestionViewModel {
     // MARK: - Initialization
     
     init() {
-        let changesDescription = try! AttributedString(markdown: "Класс **Class1** неявно ссылается на класс **Class2**, создавая его экземпляр внутри метода **method1**. Исправление заключается в использовании хранимого свойства __class1__, значение для которого передается через инициализатор.")
         let fileChangesModels = [
             FileChangesModel(fileName: "SomeFolder/SomeFile.swift", leftLines: leftDataSource, rightLines: rightDataSource),
             FileChangesModel(fileName: "SomeFolder/AnotherFile.swift", leftLines: leftDataSource, rightLines: rightDataSource)
         ]
-        self.model = ChangesSuggestionModel(changesDescription: changesDescription, fileChangesModels: fileChangesModels)
+        self.model = ChangesSuggestionModel(fileChangesModels: fileChangesModels)
     }
+    
+    // MARK: - IChangesSuggestionViewModel
+    
+    func viewDidAppear() {}
+    
+    func didTapDiscardButton() {}
+    
+    func didTapAcceptButton() {}
     
     // MARK: - Private
 

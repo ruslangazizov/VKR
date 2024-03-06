@@ -9,15 +9,17 @@ import SwiftGraph
 import SwiftParser
 import SwiftSyntax
 
+typealias Graph = WeightedGraph<ClassDeclSyntaxRef, ImplicitClassUsagePlace>
+
 enum ImplicitClassUsagePlace: Equatable {
     case storedPropertyInit(_ usedMembers: [String], propertyName: String)
-    case funcBody(_ usedMembers: [String])
+    case funcBody(_ usedMembers: [String], propertyName: String)
     case initializerWithStoredProperty(_ usedMembers: [String])
     
     var usedMembers: [String] {
         switch self {
         case .storedPropertyInit(let usedMembers, _),
-                .funcBody(let usedMembers),
+                .funcBody(let usedMembers, _),
                 .initializerWithStoredProperty(let usedMembers):
             return usedMembers
         }
@@ -29,7 +31,7 @@ final class SwiftFilesManager {
     // Properties
     private let swiftFilesAbsolutePaths: [String]
     // classes for which user discarded the suggested changes
-    var discardedClasses: [String] = []
+    var discardedClasses: [String] = [] // TODO: видимо не понадобится
     
     // MARK: - Initialization
     
@@ -39,70 +41,159 @@ final class SwiftFilesManager {
     
     // MARK: - Internal
     
-    func startAnalysis() {
+    func createGraph() -> Graph? {
         let files = getFileRefsFromPaths()
         let classes = findClasses(in: files)
-        guard !classes.isEmpty else { print("!!! не найдено ни одного класса"); return }
+        guard !classes.isEmpty else { print("!!! не найдено ни одного класса"); return nil }
         
         let graph = makeGraph(from: classes)
-        guard !graph.isEmpty else { print("!!! алгоритм не нашел неявные зависимости"); return }
+        guard graph.edgeCount > 0 else { print("!!! алгоритм не нашел неявные зависимости"); return nil }
         
-        print(graph)
-        for vertexNumber in 0..<graph.vertices.count {
-            let currentClassRef = graph.vertices[vertexNumber]
-            let currentClassName = currentClassRef.value.name.text
-            var protocolDesc = ProtocolDescription(name: "I\(currentClassName)")
-            
-            var usedMembers: Set<String> = []
-            for neighbor in graph.neighborsForIndexWithWeights(vertexNumber) {
-                usedMembers.formUnion(neighbor.1.usedMembers)
-            }
-            for classMember in usedMembers {
-                for memberBlockItem in currentClassRef.value.memberBlock.members {
-                    if let varDecl = memberBlockItem.decl.as(VariableDeclSyntax.self),
-                       let patternBindingSyntax = varDecl.bindings.first,
-                       let varName = patternBindingSyntax.pattern.as(IdentifierPatternSyntax.self)?.identifier.text,
-                       varName == classMember {
-                        if let idType = patternBindingSyntax.typeAnnotation?.type.as(IdentifierTypeSyntax.self) {
-                            protocolDesc.properties.append(.init(name: varName, typeName: idType.name.text))
-                            break
-                        } else if let initializer = patternBindingSyntax.initializer,
-                                  let funcCallExpr = initializer.value.as(FunctionCallExprSyntax.self),
-                                  let declReferenceExpr = funcCallExpr.calledExpression.as(DeclReferenceExprSyntax.self) {
-                            let typeName = declReferenceExpr.baseName.text
-                            protocolDesc.properties.append(.init(name: varName, typeName: typeName))
-                            break
-                        }
-                    } else if let funcDecl = memberBlockItem.decl.as(FunctionDeclSyntax.self),
-                              funcDecl.name.description == classMember {
-                        let funcName = funcDecl.name.description
-                        let returnTypeName = funcDecl.signature.returnClause?.type.description
-                        var methodDesc = ProtocolDescription.MethodDescription(name: funcName,
-                                                                               returnType: returnTypeName)
-                        funcDecl.signature.parameterClause.parameters.forEach { funcParameter in
-                            let argFirstName = funcParameter.firstName.description
-                            let argSecondName = funcParameter.secondName?.description
-                            let argType = funcParameter.type.description
-                            methodDesc.args.append(.init(firstName: argFirstName,
-                                                         secondName: argSecondName,
-                                                         typeName: argType))
-                        }
-                        protocolDesc.methods.append(methodDesc)
+        return graph
+    }
+    
+    func processIteration(_ iteration: Int, in graph: Graph) -> [SourceFileSyntaxRef]? {
+        let vertexNumber = iteration
+        guard let currentClassRef = graph.vertices[safe: vertexNumber] else { return nil }
+        let currentClassName = currentClassRef.description
+        let protocolName = "I\(currentClassName)"
+        var protocolDesc = ProtocolDescription(name: protocolName)
+        
+        var usedMembers: Set<String> = []
+        for neighbor in graph.neighborsForIndexWithWeights(vertexNumber) {
+            usedMembers.formUnion(neighbor.1.usedMembers)
+        }
+        for classMember in usedMembers {
+            for memberBlockItem in currentClassRef.value.memberBlock.members {
+                if let varDecl = memberBlockItem.decl.as(VariableDeclSyntax.self),
+                   let patternBindingSyntax = varDecl.bindings.first,
+                   let varName = patternBindingSyntax.pattern.as(IdentifierPatternSyntax.self)?.identifier.text,
+                   varName == classMember {
+                    if let idType = patternBindingSyntax.typeAnnotation?.type.as(IdentifierTypeSyntax.self) {
+                        protocolDesc.properties.append(.init(name: varName, typeName: idType.name.text))
+                        break
+                    } else if let initializer = patternBindingSyntax.initializer,
+                              let funcCallExpr = initializer.value.as(FunctionCallExprSyntax.self),
+                              let declReferenceExpr = funcCallExpr.calledExpression.as(DeclReferenceExprSyntax.self) {
+                        let typeName = declReferenceExpr.baseName.text
+                        protocolDesc.properties.append(.init(name: varName, typeName: typeName))
+                        break
                     }
+                } else if let funcDecl = memberBlockItem.decl.as(FunctionDeclSyntax.self),
+                          funcDecl.name.description == classMember {
+                    let funcName = funcDecl.name.description
+                    let returnTypeName = funcDecl.signature.returnClause?.type.description
+                    var methodDesc = ProtocolDescription.MethodDescription(name: funcName,
+                                                                           returnType: returnTypeName)
+                    funcDecl.signature.parameterClause.parameters.forEach { funcParameter in
+                        let argFirstName = funcParameter.firstName.description
+                        let argSecondName = funcParameter.secondName?.description
+                        let argType = funcParameter.type.description
+                        methodDesc.args.append(.init(firstName: argFirstName,
+                                                     secondName: argSecondName,
+                                                     typeName: argType))
+                    }
+                    protocolDesc.methods.append(methodDesc)
                 }
             }
-            
-            guard !protocolDesc.properties.isEmpty || !protocolDesc.methods.isEmpty else { continue }
-            
-            let item = protocolDesc.toProtocolCodeBlockItem()
-            currentClassRef.file.addProtocolBeforeClass(item, className: currentClassName)
-            
         }
         
-//        updateFiles(in: classes)
-//        files.forEach { fileRef in
-//            print(fileRef.value.description, terminator: "----------------------------\n")
-//        }
+        guard !protocolDesc.properties.isEmpty || !protocolDesc.methods.isEmpty else { return [] }
+        
+        let protocolCodeBlock = protocolDesc.toProtocolCodeBlockItem()
+        currentClassRef.file.addProtocolBeforeClass(protocolCodeBlock, className: currentClassName)
+        currentClassRef.addConformanceToProtocol(name: protocolName)
+        currentClassRef.updateFile()
+        
+        var modifiedClassesRefs = [currentClassRef]
+        for (referringClassRef, implicitUsagePlace) in graph.neighborsForIndexWithWeights(vertexNumber) {
+            switch implicitUsagePlace {
+            case .storedPropertyInit(_, let propertyName):
+                for (memberIndex, var memberBlockItem) in referringClassRef.value.memberBlock.members.enumerated() {
+                    if var varDecl = memberBlockItem.decl.as(VariableDeclSyntax.self),
+                       var patternBindingSyntax = varDecl.bindings.first,
+                       let varName = patternBindingSyntax.pattern.as(IdentifierPatternSyntax.self)?.identifier.text,
+                       varName == propertyName {
+                        // Update stored property
+                        patternBindingSyntax.typeAnnotation = SyntaxBuilder.buildTypeAnnotationWithLeadingSpace(protocolName)
+                        patternBindingSyntax.initializer = nil
+                        patternBindingSyntax.pattern.trailingTrivia = []
+                        varDecl.bindings = varDecl.bindings.replacing(childAt: 0, with: patternBindingSyntax)
+                        memberBlockItem.decl = DeclSyntax(varDecl)
+                        referringClassRef.value.memberBlock.members = referringClassRef.value.memberBlock.members
+                            .replacing(childAt: memberIndex, with: memberBlockItem)
+                        break
+                    }
+                }
+                // Update initializer or create a new one
+                referringClassRef.addParameterToInitializer(paramName: propertyName, typeName: protocolName)
+            
+            case .funcBody(_, let propertyName):
+                // Remove line with class initialization from function body
+                for (memberIndex, var memberBlockItem) in referringClassRef.value.memberBlock.members.enumerated() {
+                    if var funcDecl = memberBlockItem.decl.as(FunctionDeclSyntax.self),
+                       var codeBlock = funcDecl.body {
+                        for (index, codeBlockItem) in codeBlock.statements.enumerated() {
+                            if case .decl(let decl) = codeBlockItem.item,
+                               let varDecl = decl.as(VariableDeclSyntax.self),
+                               let patternBinding = varDecl.bindings.first,
+                               let funcCallExpr = patternBinding.initializer?.value.as(FunctionCallExprSyntax.self),
+                               let declReferenceExpr = funcCallExpr.calledExpression.as(DeclReferenceExprSyntax.self) {
+                                let typeName = declReferenceExpr.baseName.text
+                                if typeName == currentClassName {
+                                    codeBlock.statements = codeBlock.statements.removing(childAt: index)
+                                    funcDecl.body = codeBlock
+                                    memberBlockItem.decl = DeclSyntax(funcDecl)
+                                    referringClassRef.value.memberBlock.members = referringClassRef.value.memberBlock.members
+                                        .replacing(childAt: memberIndex, with: memberBlockItem)
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+                // Add private property
+                let varMember = MemberBlockItemSyntax(decl: VariableDeclSyntax(
+                    leadingTrivia: .newline + .indent,
+                    modifiers: [DeclModifierSyntax(name: .keyword(.private))],
+                    bindingSpecifier: .keyword(.let, leadingTrivia: .space, trailingTrivia: .space),
+                    bindings: [PatternBindingSyntax(
+                        pattern: IdentifierPatternSyntax(identifier: .identifier(propertyName)),
+                        typeAnnotation: SyntaxBuilder.buildTypeAnnotationWithLeadingSpace(protocolName)
+                    )],
+                    trailingTrivia: .newline
+                ))
+                let members = referringClassRef.value.memberBlock.members
+                referringClassRef.value.memberBlock.members = [varMember] + members
+                // Update initializer or create a new one
+                referringClassRef.addParameterToInitializer(paramName: propertyName, typeName: protocolName)
+            
+            case .initializerWithStoredProperty:
+                // Change concrete class type in initializer parameters and properties to protocol
+                let newDesc = referringClassRef.value.description.replacing(currentClassName, with: protocolName)
+                let sourceFileSyntax = Parser.parse(source: newDesc)
+                guard let firstStatement = sourceFileSyntax.statements.first,
+                      case .decl(let decl) = firstStatement.item,
+                      let newClassDecl = decl.as(ClassDeclSyntax.self) else {
+                    print("!!! не получилось распарсить класс с измененными типами")
+                    continue
+                }
+                referringClassRef.value = newClassDecl
+            }
+            
+            referringClassRef.updateFile()
+            modifiedClassesRefs.append(referringClassRef)
+        }
+        
+        var modifiedFilesRefs: [SourceFileSyntaxRef] = []
+        var visitedFiles: Set<String> = []
+        modifiedClassesRefs.forEach { classRef in
+            let file = classRef.file
+            if visitedFiles.insert(file.absolutePath).inserted {
+                modifiedFilesRefs.append(file)
+            }
+        }
+        return modifiedFilesRefs
     }
     
     // MARK: - Private
@@ -117,22 +208,21 @@ final class SwiftFilesManager {
     private func findClasses(in files: [SourceFileSyntaxRef]) -> [ClassDeclSyntaxRef] {
         var classes: [ClassDeclSyntaxRef] = []
         files.forEach { file in
-            file.value.statements.enumerated().forEach { offset, codeBlockItem in
-                if case .decl(let decl) = codeBlockItem.item {
-                    if let classDecl = decl.as(ClassDeclSyntax.self),
-                       !discardedClasses.contains(where: { $0 == classDecl.name.text}) {
-                        classes.append(ClassDeclSyntaxRef(file: file,
-                                                fileStatementNumber: offset,
-                                                value: classDecl))
-                    }
+            file.value.statements.forEach { codeBlockItem in
+                if case .decl(let decl) = codeBlockItem.item,
+                   let classDecl = decl.as(ClassDeclSyntax.self),
+                   !discardedClasses.contains(where: { $0 == classDecl.name.text}) {
+                    let classRef = ClassDeclSyntaxRef(file: file, value: classDecl)
+                    classes.append(classRef)
+                    file.classes.append(classRef)
                 }
             }
         }
         return classes
     }
     
-    private func makeGraph(from classes: [ClassDeclSyntaxRef]) -> WeightedGraph<ClassDeclSyntaxRef, ImplicitClassUsagePlace> {
-        let graph = WeightedGraph<ClassDeclSyntaxRef, ImplicitClassUsagePlace>(vertices: classes)
+    private func makeGraph(from classes: [ClassDeclSyntaxRef]) -> Graph {
+        let graph = Graph(vertices: classes)
         for classRef in classes {
             classRef.value.memberBlock.members.forEach { memberBlockItem in
                 if let varDecl = memberBlockItem.decl.as(VariableDeclSyntax.self) {
@@ -166,7 +256,7 @@ final class SwiftFilesManager {
                                 finder.walk(codeBlock)
                                 graph.addEdge(from: toClassRef,
                                               to: classRef,
-                                              weight: .funcBody(finder.usedMembers),
+                                              weight: .funcBody(finder.usedMembers, propertyName: varName),
                                               directed: true)
                             }
                         }
@@ -188,16 +278,5 @@ final class SwiftFilesManager {
             }
         }
         return graph
-    }
-    
-    // Update files based on modified classes
-    private func updateFiles(in classes: [ClassDeclSyntaxRef]) {
-        classes.forEach { classRef in
-            let statements = classRef.file.value.statements.replacing(
-                childAt: classRef.fileStatementNumber,
-                with: CodeBlockItemSyntax(item: .decl(.init(classRef.value)))
-            )
-            classRef.file.value = classRef.file.value.with(\.statements, statements)
-        }
     }
 }

@@ -8,6 +8,5 @@
 import Foundation
 
 struct ChangesSuggestionModel {
-    let changesDescription: AttributedString
     let fileChangesModels: [FileChangesModel]
 }

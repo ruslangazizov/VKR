@@ -19,3 +19,10 @@ extension [ClassDeclSyntaxRef] {
         return first(where: { $0.value.name.text == className })
     }
 }
+
+extension Array {
+    
+    subscript(safe index: Index) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}
