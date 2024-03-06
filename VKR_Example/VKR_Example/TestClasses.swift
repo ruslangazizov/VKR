@@ -3,7 +3,7 @@ import Foundation
 class FirstClass {
     private let secondClass: SecondClass
     
-    // implicit dependency on Screen1Presenter
+    // implicit dependency on SecondClass
     init(secondClass: SecondClass) {
         self.secondClass = secondClass
     }
