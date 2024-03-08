@@ -29,12 +29,12 @@ final class ArraysDiffFinder {
         while leftI < lhsArrayCount && rightI < rhsArrayCount {
             let isRemoved = deletes.contains(leftI)
             if isRemoved {
-                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .removed))
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], line: leftI + 1, status: .removed))
                 leftI += 1
             }
             let isAdded = inserts.contains(rightI)
             if isAdded {
-                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .added))
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], line: rightI + 1, status: .added))
                 rightI += 1
             }
             if isRemoved && isAdded && lhsArray[leftI - 1] == rhsArray[rightI - 1] {
@@ -43,26 +43,26 @@ final class ArraysDiffFinder {
             }
             if !isRemoved && !isAdded {
                 equalizeElementsCount(&resultLhsArray, &resultRhsArray)
-                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .unchanged))
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], line: leftI + 1, status: .unchanged))
                 leftI += 1
-                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .unchanged))
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], line: rightI + 1, status: .unchanged))
                 rightI += 1
             }
         }
         equalizeElementsCount(&resultLhsArray, &resultRhsArray)
         while leftI < lhsArrayCount {
             if deletes.contains(leftI) {
-                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .removed))
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], line: leftI + 1, status: .removed))
             } else {
-                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .unchanged))
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], line: leftI + 1, status: .unchanged))
             }
             leftI += 1
         }
         while rightI < rhsArrayCount {
             if inserts.contains(rightI) {
-                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .added))
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], line: rightI + 1, status: .added))
             } else {
-                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .unchanged))
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], line: rightI + 1, status: .unchanged))
             }
             rightI += 1
         }
@@ -79,11 +79,11 @@ final class ArraysDiffFinder {
         let resultRhsArrayCount = resultRhsArray.count
         if resultLhsArrayCount < resultRhsArrayCount {
             for _ in 0..<resultRhsArrayCount - resultLhsArrayCount {
-                resultLhsArray.append(LineModel(text: "", status: .empty))
+                resultLhsArray.append(LineModel(text: "", line: nil, status: .empty))
             }
         } else if resultRhsArrayCount < resultLhsArrayCount {
             for _ in 0..<resultLhsArrayCount - resultRhsArrayCount {
-                resultRhsArray.append(LineModel(text: "", status: .empty))
+                resultRhsArray.append(LineModel(text: "", line: nil, status: .empty))
             }
         }
     }

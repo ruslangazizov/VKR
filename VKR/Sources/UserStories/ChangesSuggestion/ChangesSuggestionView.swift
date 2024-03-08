@@ -39,13 +39,13 @@ struct ChangesSuggestionView<ViewModel>: View where ViewModel: IChangesSuggestio
                                 VStack(spacing: .zero) {
                                     ForEach(0..<linesCount(for: model), id: \.self) { index in
                                         HStack(spacing: .zero) {
-                                            makeLine(model.leftLines[index])
+                                            makeLine(model.leftLines[index], isNumberBefore: false)
                                             
                                             Rectangle()
                                                 .frame(width: 2)
                                                 .foregroundColor(.fileVersionsSeparator)
                                             
-                                            makeLine(model.rightLines[index])
+                                            makeLine(model.rightLines[index], isNumberBefore: true)
                                         }
                                     }
                                 }
@@ -103,16 +103,34 @@ struct ChangesSuggestionView<ViewModel>: View where ViewModel: IChangesSuggestio
             .onTapGesture(perform: action)
     }
 
-    private func makeLine(_ line: LineModel) -> some View {
+    private func makeLine(_ line: LineModel, isNumberBefore: Bool) -> some View {
+        func makeLineNumber(_ line: LineModel, color: Color) -> some View {
+            Text(line.line.map { "\($0)" } ?? "")
+                .font(.system(size: 12))
+                .fontDesign(.monospaced)
+                .frame(minWidth: 20, maxHeight: .infinity, alignment: .topTrailing)
+                .foregroundColor(.white)
+                .background(color.opacity(0.5))
+        }
+        
         let color = lineColor(for: line.status)
         return Group {
+            if isNumberBefore {
+                makeLineNumber(line, color: color)
+            }
+            
             Rectangle()
                 .frame(width: 6)
                 .foregroundColor(color)
+            
             Text(line.text)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .foregroundColor(.white)
                 .background(color)
+            
+            if !isNumberBefore {
+                makeLineNumber(line, color: color)
+            }
         }
     }
     
