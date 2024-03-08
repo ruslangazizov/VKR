@@ -13,37 +13,61 @@ final class ArraysDiffFinder {
         let result = ListDiff(oldArray: lhsArray.map { $0.toClass() },
                               newArray: rhsArray.map { $0.toClass() },
                               option: .equality)
-        print("inserts", result.inserts.map { $0 })
-        print("deletes", result.deletes.map { $0 })
-        print("moves", result.moves)
-
-        let moves = result.moves.filter { $0.from != $0.to }
-        let finalInserts = result.inserts + moves.map { $0.to }
-        let finalDeletes = result.deletes + moves.map { $0.from }
-        print("final inserts", finalInserts.sorted()) // эти строки нужно подсветить зеленым в новой версии файла
-        print("final deletes", finalDeletes.sorted()) // эти строки нужно подсветить красным в старой версии файла
+        var inserts = result.inserts
+        var deletes = result.deletes
+        for move in result.moves.filter({ $0.from >= $0.to }) {
+            inserts.insert(move.to)
+            deletes.insert(move.from)
+        }
         
         var resultLhsArray: [LineModel] = []
         var resultRhsArray: [LineModel] = []
         let lhsArrayCount = lhsArray.count
         let rhsArrayCount = rhsArray.count
-        for i in 0..<max(lhsArrayCount, rhsArrayCount) {
-            var isLineChanged = false
-            if i < lhsArrayCount && finalDeletes.contains(i) {
-                resultLhsArray.append(LineModel(text: lhsArray[i], status: .removed))
-                isLineChanged = true
+        
+        var leftI = 0, rightI = 0
+        while leftI < lhsArrayCount && rightI < rhsArrayCount {
+            let isRemoved = deletes.contains(leftI)
+            if isRemoved {
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .removed))
+                leftI += 1
             }
-            if i < rhsArrayCount && finalInserts.contains(i) {
-                resultRhsArray.append(LineModel(text: rhsArray[i], status: .added))
-                isLineChanged = true
+            let isAdded = inserts.contains(rightI)
+            if isAdded {
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .added))
+                rightI += 1
             }
-            if !isLineChanged {
+            if isRemoved && isAdded && lhsArray[leftI - 1] == rhsArray[rightI - 1] {
+                resultLhsArray[resultLhsArray.count - 1].status = .unchanged
+                resultRhsArray[resultRhsArray.count - 1].status = .unchanged
+            }
+            if !isRemoved && !isAdded {
                 equalizeElementsCount(&resultLhsArray, &resultRhsArray)
-                resultLhsArray.append(LineModel(text: lhsArray[i], status: .unchanged))
-                resultRhsArray.append(LineModel(text: rhsArray[i], status: .unchanged))
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .unchanged))
+                leftI += 1
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .unchanged))
+                rightI += 1
             }
         }
         equalizeElementsCount(&resultLhsArray, &resultRhsArray)
+        while leftI < lhsArrayCount {
+            if deletes.contains(leftI) {
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .removed))
+            } else {
+                resultLhsArray.append(LineModel(text: lhsArray[leftI], status: .unchanged))
+            }
+            leftI += 1
+        }
+        while rightI < rhsArrayCount {
+            if inserts.contains(rightI) {
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .added))
+            } else {
+                resultRhsArray.append(LineModel(text: rhsArray[rightI], status: .unchanged))
+            }
+            rightI += 1
+        }
+        equalizeElementsCount(&resultLhsArray, &resultRhsArray)
+        
         return (resultLhsArray, resultRhsArray)
     }
     

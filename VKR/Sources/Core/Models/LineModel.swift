@@ -16,5 +16,5 @@ struct LineModel {
     }
 
     let text: String
-    let status: Status
+    var status: Status
 }
