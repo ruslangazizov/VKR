@@ -8,7 +8,6 @@
 import SwiftUI
 
 private extension Color {
-    static let fileNameBackground = Color(.displayP3, red: 0.173, green: 0.192, blue: 0.212)
     static let fileVersionsSeparator = Color(red: 0.188, green: 0.212, blue: 0.235)
     static let addedLine = Color(.displayP3, red: 0.114, green: 0.224, blue: 0.118)
     static let removedLine = Color(.displayP3, red: 0.247, green: 0.067, blue: 0.067)
@@ -36,7 +35,6 @@ struct ChangesSuggestionView<ViewModel>: View where ViewModel: IChangesSuggestio
                                     .padding(6)
                                     .frame(maxWidth: .infinity)
                                     .foregroundColor(.white)
-                                    .background(Color.fileNameBackground)
                                 
                                 VStack(spacing: .zero) {
                                     ForEach(0..<linesCount(for: model), id: \.self) { index in
