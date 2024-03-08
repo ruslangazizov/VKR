@@ -13,6 +13,7 @@
 		44A3C44D2B4AEBDE008C735F /* LineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A3C44C2B4AEBDE008C735F /* LineModel.swift */; };
 		44A3C4502B4C7B8E008C735F /* ProjectChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A3C44F2B4C7B8E008C735F /* ProjectChoiceView.swift */; };
 		44ACDCCC2B7D485E00DCC7F5 /* FileChangesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ACDCCB2B7D485E00DCC7F5 /* FileChangesModel.swift */; };
+		44ACDCCE2B9B926000DCC7F5 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ACDCCD2B9B926000DCC7F5 /* String+Extensions.swift */; };
 		44F6CD072B49C89D00A39C89 /* VKRApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6CD062B49C89D00A39C89 /* VKRApp.swift */; };
 		44F6CD092B49C89D00A39C89 /* ChangesSuggestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6CD082B49C89D00A39C89 /* ChangesSuggestionView.swift */; };
 		44F6CD0B2B49C89E00A39C89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44F6CD0A2B49C89E00A39C89 /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 		44A3C44C2B4AEBDE008C735F /* LineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineModel.swift; sourceTree = "<group>"; };
 		44A3C44F2B4C7B8E008C735F /* ProjectChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectChoiceView.swift; sourceTree = "<group>"; };
 		44ACDCCB2B7D485E00DCC7F5 /* FileChangesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileChangesModel.swift; sourceTree = "<group>"; };
+		44ACDCCD2B9B926000DCC7F5 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		44F6CD032B49C89D00A39C89 /* VKR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKR.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44F6CD062B49C89D00A39C89 /* VKRApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKRApp.swift; sourceTree = "<group>"; };
 		44F6CD082B49C89D00A39C89 /* ChangesSuggestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangesSuggestionView.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				97E5EF602B803C05003876AE /* NSRegularExpression+Extensions.swift */,
 				973DE9992B85498000A4EE94 /* Array+Extensions.swift */,
 				977DA0F82B97C1B100F2970E /* Trivia+Extensions.swift */,
+				44ACDCCD2B9B926000DCC7F5 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				44A3C44D2B4AEBDE008C735F /* LineModel.swift in Sources */,
 				97E5EF632B810DF6003876AE /* SwiftFilesManager.swift in Sources */,
 				977D16FD2B8E628D00F2970E /* PropertyUsagesFinder.swift in Sources */,
+				44ACDCCE2B9B926000DCC7F5 /* String+Extensions.swift in Sources */,
 				44A3C4472B4AE88D008C735F /* ArraysDiffFinder.swift in Sources */,
 				977DA0F52B9729A400F2970E /* NavigationPathScreen.swift in Sources */,
 				97E5EF612B803C05003876AE /* NSRegularExpression+Extensions.swift in Sources */,

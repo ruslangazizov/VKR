@@ -30,8 +30,6 @@ final class SwiftFilesManager {
     
     // Properties
     private let swiftFilesAbsolutePaths: [String]
-    // classes for which user discarded the suggested changes
-    var discardedClasses: [String] = [] // TODO: видимо не понадобится
     
     // MARK: - Initialization
     
@@ -101,7 +99,7 @@ final class SwiftFilesManager {
         guard !protocolDesc.properties.isEmpty || !protocolDesc.methods.isEmpty else { return [] }
         
         let protocolCodeBlock = protocolDesc.toProtocolCodeBlockItem()
-        currentClassRef.file.addProtocolBeforeClass(protocolCodeBlock, className: currentClassName)
+        currentClassRef.file.addProtocolAfterClass(protocolCodeBlock, className: currentClassName)
         currentClassRef.addConformanceToProtocol(name: protocolName)
         currentClassRef.updateFile()
         
@@ -210,8 +208,7 @@ final class SwiftFilesManager {
         files.forEach { file in
             file.value.statements.forEach { codeBlockItem in
                 if case .decl(let decl) = codeBlockItem.item,
-                   let classDecl = decl.as(ClassDeclSyntax.self),
-                   !discardedClasses.contains(where: { $0 == classDecl.name.text}) {
+                   let classDecl = decl.as(ClassDeclSyntax.self) {
                     let classRef = ClassDeclSyntaxRef(file: file, value: classDecl)
                     classes.append(classRef)
                     file.classes.append(classRef)

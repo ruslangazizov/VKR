@@ -90,16 +90,12 @@ final class ChangesSuggestionViewModel: IChangesSuggestionViewModel {
     }
     
     private func convertFileRefToFileChangesModel(_ fileRef: SourceFileSyntaxRef) -> FileChangesModel? {
-        guard let fileString = try? String(contentsOfFile: fileRef.absolutePath) else { return nil }
-        return FileChangesModel(fileName: fileRef.absolutePath,
-                                leftLines: fileString.splitByNewLineChar().map { LineModel(text: $0, status: .unchanged) },
-                                rightLines: fileRef.value.description.splitByNewLineChar().map { LineModel(text: $0, status: .unchanged) })
-    }
-}
-
-private extension String {
-    
-    func splitByNewLineChar() -> [String] {
-        self.split(separator: "\n", omittingEmptySubsequences: false).map { String($0) }
+        guard let originalFile = try? String(contentsOfFile: fileRef.absolutePath).splitByNewLineChar() else {
+            return nil
+        }
+        
+        let modifiedFile = fileRef.value.description.splitByNewLineChar()
+        let (leftLines, rightLines) = diffFinder.findDiff(originalFile, modifiedFile)
+        return FileChangesModel(fileName: fileRef.absolutePath, leftLines: leftLines, rightLines: rightLines)
     }
 }

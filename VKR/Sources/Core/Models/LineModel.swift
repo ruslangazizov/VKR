@@ -15,7 +15,6 @@ struct LineModel {
         case empty
     }
 
-//    let id = UUID() - пригодится в случае использования протокола Identifiable
     let text: String
     let status: Status
 }

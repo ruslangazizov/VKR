@@ -36,12 +36,12 @@ final class SourceFileSyntaxRef {
         }
     }
     
-    func addProtocolBeforeClass(_ protocolCodeBlockItem: CodeBlockItemSyntax, className: String) {
+    func addProtocolAfterClass(_ protocolCodeBlockItem: CodeBlockItemSyntax, className: String) {
         var protocolStatementIndex = 0
         for (index, statement) in value.statements.enumerated() {
             if let classDecl = statement.item.as(ClassDeclSyntax.self),
                classDecl.name.text == className {
-                protocolStatementIndex = index
+                protocolStatementIndex = index + 1
                 break
             }
         }
