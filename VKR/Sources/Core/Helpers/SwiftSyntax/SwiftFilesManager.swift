@@ -99,7 +99,7 @@ final class SwiftFilesManager {
         guard !protocolDesc.properties.isEmpty || !protocolDesc.methods.isEmpty else { return [] }
         
         let protocolCodeBlock = protocolDesc.toProtocolCodeBlockItem()
-        currentClassRef.file.addProtocolAfterClass(protocolCodeBlock, className: currentClassName)
+        currentClassRef.file.addProtocolBeforeClass(protocolCodeBlock, className: currentClassName)
         currentClassRef.addConformanceToProtocol(name: protocolName)
         currentClassRef.updateFile()
         
