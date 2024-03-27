@@ -1,5 +1,5 @@
 //
-//  ChangesSuggestionMockViewModel.swift
+//  ChangesSuggestionViewModelMock.swift
 //  VKR
 //
 //  Created by Руслан on 06.01.2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ChangesSuggestionMockViewModel: IChangesSuggestionViewModel {
+final class ChangesSuggestionViewModelMock: IChangesSuggestionViewModel {
     
     // Properties
     var model: ChangesSuggestionModel?

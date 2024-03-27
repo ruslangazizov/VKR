@@ -47,10 +47,18 @@ final class ProjectChoiceViewModel: ObservableObject, NavigationDelegate {
         return ChangesSuggestionView(viewModel: viewModel)
     }
     
+    func createStatisticsView() -> StatisticsView<StatisticsViewModelMock> {
+        StatisticsView(viewModel: StatisticsViewModelMock())
+    }
+    
     // MARK: - NavigationDelegate
     
     func removeLastPathComponent() {
         path.removeLast()
+    }
+    
+    func openStatisticsScreen() {
+        path.append(NavigationPathScreen.statistics)
     }
     
     // MARK: - Private

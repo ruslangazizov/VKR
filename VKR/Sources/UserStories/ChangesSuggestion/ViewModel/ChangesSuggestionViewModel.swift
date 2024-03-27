@@ -7,8 +7,11 @@
 
 import SwiftUI
 
-protocol NavigationDelegate: AnyObject {
-    func removeLastPathComponent()
+protocol IChangesSuggestionViewModel: ObservableObject {
+    var model: ChangesSuggestionModel? { get }
+    func viewDidAppear()
+    func didTapDiscardButton()
+    func didTapAcceptButton()
 }
 
 final class ChangesSuggestionViewModel: IChangesSuggestionViewModel {
@@ -73,7 +76,7 @@ final class ChangesSuggestionViewModel: IChangesSuggestionViewModel {
         while modifiedFilesRefs.isEmpty {
             currentIteration += 1
             guard let refs = manager.processIteration(currentIteration, in: graph) else {
-                print(">>> работа окончена, можно переходить на финальный экран")
+                openStatisticsScreenWithDelay()
                 return
             }
             
@@ -86,6 +89,12 @@ final class ChangesSuggestionViewModel: IChangesSuggestionViewModel {
     private func goToPreviousScreenWithDelay() {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
             self.navigationDelegate?.removeLastPathComponent()
+        }
+    }
+    
+    private func openStatisticsScreenWithDelay() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            self.navigationDelegate?.openStatisticsScreen()
         }
     }
     

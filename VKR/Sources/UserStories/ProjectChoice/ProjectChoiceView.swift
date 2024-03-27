@@ -67,8 +67,11 @@ struct ProjectChoiceView: View {
                 makeFirstResponderNil()
             }
             .navigationDestination(for: NavigationPathScreen.self) { screen in
-                if case .changesSuggestion(let paths) = screen {
+                switch screen {
+                case .changesSuggestion(let paths):
                     viewModel.createChangesSuggestionView(swiftFilesAbsolutePaths: paths)
+                case .statistics:
+                    viewModel.createStatisticsView()
                 }
             }
         }
@@ -101,7 +104,6 @@ struct ProjectChoiceView: View {
 // MARK: - Preview
 
 struct ProjectChoiceView_Previews: PreviewProvider {
-    
     static var previews: some View {
         ProjectChoiceView()
     }

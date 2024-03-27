@@ -157,8 +157,7 @@ struct ChangesSuggestionView<ViewModel>: View where ViewModel: IChangesSuggestio
 // MARK: - Preview
 
 struct ChangesSuggestionView_Previews: PreviewProvider {
-
     static var previews: some View {
-        ChangesSuggestionView(viewModel: ChangesSuggestionMockViewModel())
+        ChangesSuggestionView(viewModel: ChangesSuggestionViewModelMock())
     }
 }
