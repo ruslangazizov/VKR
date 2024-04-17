@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 final class ProjectChoiceViewModel: ObservableObject, NavigationDelegate {
     
     // Properties
-    @Published var projectPath: String? = "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example.xcodeproj"
+    @Published var projectPath: String? //= "/Users/r.a.gazizov/Desktop/VKR/VKR_Example/VKR_Example.xcodeproj"
     @Published var includedFilesRegExp: String = ""
     @Published var excludedFilesRegExp: String = ""
     @Published var path = NavigationPath()
